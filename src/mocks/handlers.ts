@@ -1,39 +1,18 @@
 import { rest } from 'msw'
+import { Pokemon } from '../requests/types'
+import pokemonsListJson1 from './responses/pokemons1.json'
+// import pokemonsListJson2 from './responses/pokemons2.json'
+import pokemonJson from './responses/pokemon.json'
 
 export const handlers = [
-  rest.get('https://pokeapi.co/api/v2/pokemons', (req, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.json({
-        data: [
-          {
-            name: 'Bulbasaur',
-            spriteUrl:
-              'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png',
-          },
-        ],
-        error: null,
-      }),
-    )
-  }),
+  rest.get('https://pokeapi.co/api/v2/pokemon/:id', (req, res, ctx) => {
+    const { id } = req.params
+    const pokemon: Pokemon = pokemonJson
 
-  rest.get('https://pokeapi.co/api/v2/pokemon/132', (req, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.json({
-        data: {
-          name: 'Bulbasaur',
-          spriteUrl:
-            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png',
-          captureRate: 2,
-          abilities: [
-            {
-              name: 'Drop',
-            },
-          ],
-        },
-        error: null,
-      }),
-    )
+    return res(ctx.status(200), ctx.json({ ...pokemon, name: `${pokemon.name}${id}` }))
+  }),
+  rest.get('https://pokeapi.co/api/v2/pokemon', (req, res, ctx) => {
+    const offset = req.url.searchParams.get('offset')
+    return res(ctx.status(200), ctx.json(pokemonsListJson1))
   }),
 ]
