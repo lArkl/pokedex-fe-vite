@@ -1,0 +1,25 @@
+.container {
+  margin: 0;
+  padding: 0.4rem 1rem;
+  border-radius: 0.2rem;
+  color: white;
+  border-style: solid;
+}
+
+.primary {
+  background-color: #dc0a2d;
+
+  &:hover,
+  &:active {
+    background-color: #aa0823;
+  }
+}
+
+.secondary {
+  background-color: #5a1ef1;
+
+  &:hover,
+  &:active {
+    background-color: #400dbe;
+  }
+}

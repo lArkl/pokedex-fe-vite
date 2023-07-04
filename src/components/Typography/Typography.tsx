@@ -1,30 +1,40 @@
 import classNames from 'classnames'
 import { FC, ReactNode } from 'react'
-// import styles from './Typography.module.scss'
+import styles from './Typography.module.scss'
 
-const styles = {
-  large: '',
-  medium: '',
-  small: '',
-}
+type TypographyVariant = 'sm' | 'md' | 'lg' | 'xl'
 
 interface TypographyProps {
   children: ReactNode
-  size?: 'sm' | 'md' | 'lg'
+  variant?: TypographyVariant
+  className?: string
 }
 
-const Typography: FC<TypographyProps> = ({ children, size }) => {
-  return (
-    <div
-      className={classNames({
-        [styles.large]: size === 'lg',
-        [styles.medium]: size === 'md',
-        [styles.small]: size === 'sm',
-      })}
-    >
-      {children}
-    </div>
-  )
+const typographyTypes: Record<
+  TypographyVariant,
+  { Component: FC<Omit<TypographyProps, 'variant'>>; className: string }
+> = {
+  xl: {
+    Component: (props) => <h1 {...props} />,
+    className: styles.xl,
+  },
+  lg: {
+    Component: (props) => <h2 {...props} />,
+    className: styles.lg,
+  },
+  md: {
+    Component: (props) => <p {...props} />,
+    className: styles.md,
+  },
+  sm: {
+    Component: (props) => <p {...props} />,
+    className: styles.sm,
+  },
+}
+
+const Typography: FC<TypographyProps> = ({ children, variant = 'sm', className }) => {
+  const { Component, className: typeClassName } = typographyTypes[variant]
+  return <Component className={classNames([typeClassName, className])}>{children}</Component>
 }
 
 export default Typography

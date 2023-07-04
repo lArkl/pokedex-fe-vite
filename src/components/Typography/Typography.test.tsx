@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import Typography from './Typography'
 
-describe('PokemonDetail', () => {
+describe('Typography', () => {
   it('renders component', async () => {
     render(<Typography>text</Typography>)
     const text = screen.getByText('text')
@@ -9,18 +9,24 @@ describe('PokemonDetail', () => {
   })
 
   it('shows small size', async () => {
-    render(<Typography size="sm">text</Typography>)
+    render(<Typography variant="sm">text</Typography>)
     const text = screen.getByText('text')
     expect(text).toBeInTheDocument()
   })
   it('shows medium size', async () => {
-    render(<Typography size="md">text</Typography>)
+    render(<Typography variant="md">text</Typography>)
     const text = screen.getByText('text')
     expect(text).toBeInTheDocument()
   })
-  it('shows large size', async () => {
-    render(<Typography size="lg">text</Typography>)
+  it('shows large size as heading', async () => {
+    render(<Typography variant="lg">text</Typography>)
+    const text = screen.getByRole('heading')
+    expect(text).toHaveTextContent('text')
+  })
+
+  it('accepts classname', async () => {
+    render(<Typography className="class">text</Typography>)
     const text = screen.getByText('text')
-    expect(text).toBeInTheDocument()
+    expect(text).toHaveClass('class')
   })
 })

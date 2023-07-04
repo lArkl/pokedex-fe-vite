@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import Input from './Input'
 import { vi } from 'vitest'
 
-describe('Loader', () => {
+describe('Input', () => {
   it('renders component', async () => {
     render(<Input />)
 

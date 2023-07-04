@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import PokemonTypeBadge from './PokemonTypeBadge'
 
-describe('PokemonDetail', () => {
+describe('PokemonTypeBadge', () => {
   it('renders component', async () => {
     render(<PokemonTypeBadge typeName="grass" />)
 
