@@ -1,34 +1,32 @@
 import { FC, useEffect, useState } from 'react'
 import Loader from '../../components/Loader'
 import { Pokemon, getPokemonFromId } from '../../requests/getPokemons'
-import Typography from '../../components/Typography/Typography'
+import { useParams } from 'react-router-dom'
+import styles from './PokemonDetail.module.scss'
+import PokemonDetailMain from './PokemonDetailMain'
+import PokemonDetailAbout from './PokemonDetailAbout'
+import PokemonDetailSprites from './PokemonDetailSprites'
+import PokemonDetailStats from './PokemonDetailStats'
+import PokemonDetailMoves from './PokemonDetailMoves'
 
 const PokemonDetail: FC = () => {
   const [pokemonInfo, setPokemonInfo] = useState<Pokemon>()
 
+  const { id } = useParams()
+
   useEffect(() => {
-    getPokemonFromId(1).then((data) => {
+    getPokemonFromId(Number(id)).then((data) => {
       setPokemonInfo(data)
     })
-  }, [])
+  }, [id])
 
   return pokemonInfo ? (
-    <div>
-      <Typography>{pokemonInfo.name}</Typography>
-      <img src={pokemonInfo.spriteUrl} alt={pokemonInfo.name} />
-      <section aria-label="abilities">
-        <h2>Abilities</h2>
-        <ul>
-          {pokemonInfo.abilites.map((abilityName, index) => (
-            <li key={`ability-${index}`}>{abilityName}</li>
-          ))}
-        </ul>
-      </section>
-      <section aria-label="stats">
-        <h2>stats</h2>
-      </section>
-      <div>Type</div>
-      <div>Moves</div>
+    <div className={styles.details}>
+      <PokemonDetailMain pokemonInfo={pokemonInfo} />
+      <PokemonDetailAbout pokemonInfo={pokemonInfo} />
+      <PokemonDetailStats pokemonInfo={pokemonInfo} />
+      <PokemonDetailMoves pokemonInfo={pokemonInfo} />
+      <PokemonDetailSprites pokemonInfo={pokemonInfo} />
     </div>
   ) : (
     <Loader />

@@ -1,41 +1,32 @@
 import { render, screen, within } from '@testing-library/react'
 import PokemonDetail from './PokemonDetail'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
+import { AppRoutes } from '../../routes/appRoutes'
+
+const renderComponent = () => {
+  return render(
+    <MemoryRouter initialEntries={[`${AppRoutes.PokemonList}/1`]}>
+      <Routes>
+        <Route path={AppRoutes.PokemonDetail} element={<PokemonDetail />} />
+      </Routes>
+    </MemoryRouter>,
+  )
+}
 
 describe('PokemonDetail', () => {
+  it('shows loader while fetching list', () => {
+    renderComponent()
+
+    expect(screen.getByRole('alert')).toBeInTheDocument()
+  })
+
   it('renders component', async () => {
-    render(<PokemonDetail />)
+    renderComponent()
 
-    expect(await screen.findByRole('heading', { name: /bulbasaur/i })).toBeInTheDocument()
-  })
-  it('shows pokemon image', async () => {
-    render(<PokemonDetail />)
-
-    expect(await screen.findByRole('img', { name: /bulbasaur/i })).toBeInTheDocument()
-  })
-
-  it('shows type', async () => {
-    render(<PokemonDetail />)
-
-    expect(await screen.findByText(/type/i)).toBeInTheDocument()
-  })
-
-  it('shows abilities', async () => {
-    render(<PokemonDetail />)
-
-    const abilities = await screen.findByRole('region', { name: 'abilities' })
-    expect(abilities).toBeInTheDocument()
-    expect(within(abilities).getAllByRole('listitem')).toHaveLength(1)
-  })
-
-  it('shows moves', async () => {
-    render(<PokemonDetail />)
-
-    expect(await screen.findByText(/moves/i)).toBeInTheDocument()
-  })
-
-  it('shows stats', async () => {
-    render(<PokemonDetail />)
-
-    expect(await screen.findByText(/stats/i)).toBeInTheDocument()
+    expect(await screen.findByTestId('PokemonDetailMain')).toBeInTheDocument()
+    expect(screen.getByText(/about/i)).toBeInTheDocument()
+    expect(screen.getByLabelText('abilities')).toBeInTheDocument()
+    expect(screen.getByLabelText(/moves/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/stats/i)).toBeInTheDocument()
   })
 })
