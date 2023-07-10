@@ -1,6 +1,6 @@
 import { Pokemon } from '../../requests/getPokemons'
 
-export const getPokemonMock = (id = 1): Pokemon => ({
+export const makePokemon = (id = 1): Pokemon => ({
   name: `bulbasaur${id ? id.toString() : ''}`,
   abilites: ['ab1', 'ab2'],
   moves: ['m1', 'm2'],

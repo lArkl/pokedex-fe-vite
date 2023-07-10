@@ -2,13 +2,13 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import PokemonListItem from './PokemonListItem'
 import { AppRoutes } from '../../../routes/appRoutes'
-import { getPokemonMock } from '../../../mocks/factories/pokemon'
+import { makePokemon } from '../../../mocks/factories/pokemon'
 
 const renderComponent = () => {
   return render(
     <MemoryRouter initialEntries={[AppRoutes.PokemonList]}>
       <Routes>
-        <Route path={AppRoutes.PokemonList} element={<PokemonListItem pokemonInfo={getPokemonMock()} />} />
+        <Route path={AppRoutes.PokemonList} element={<PokemonListItem pokemonInfo={makePokemon()} />} />
         <Route path={AppRoutes.PokemonDetail} element={<div>Detail</div>} />
       </Routes>
     </MemoryRouter>,

@@ -1,9 +1,9 @@
 import { render, screen, within } from '@testing-library/react'
 import PokemonDetailAbout from './PokemonDetailAbout'
-import { getPokemonMock } from '../../../mocks/factories/pokemon'
+import { makePokemon } from '../../../mocks/factories/pokemon'
 
 const renderComponent = (className?: string) => {
-  render(<PokemonDetailAbout pokemonInfo={getPokemonMock()} className={className} />)
+  render(<PokemonDetailAbout pokemonInfo={makePokemon()} className={className} />)
 }
 
 describe('PokemonDetailAbout', () => {
