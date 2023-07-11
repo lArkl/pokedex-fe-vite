@@ -1,65 +1,38 @@
-import { getPokemonFromId, getPokemonFromUrl, getPokemonsList } from './getPokemons'
+import { getPokemonFromId, getPokemonsList } from './getPokemons'
+import { makePokemon } from '../mocks/factories/pokemon'
 
 describe('getPokemons', () => {
-  const pokemonMock = {
-    id: '1',
-    name: 'bulbasaur1',
-    spriteUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg',
-    sprites: {
-      default: {
-        frontUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png',
-        backUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/1.png',
-      },
-      shiny: {
-        frontUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/1.png',
-        backUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/shiny/1.png',
-      },
-    },
-    stats: [
-      { value: 45, name: 'hp' },
-      { value: 49, name: 'attack' },
-      { value: 49, name: 'defense' },
-      { value: 65, name: 'special-attack' },
-      { value: 65, name: 'special-defense' },
-      { value: 45, name: 'speed' },
-    ],
-    abilites: ['overgrow', 'chlorophyll'],
-    types: [
-      { slot: 1, type: { name: 'grass', url: 'https://pokeapi.co/api/v2/type/12/' } },
-      { slot: 2, type: { name: 'poison', url: 'https://pokeapi.co/api/v2/type/4/' } },
-    ],
-    moves: ['razor-wind', 'swords-dance'],
-    weight: 6.9,
-    height: 0.7,
-  }
-
   describe('getPokemonFromId', () => {
     it('returns pokemon data from id', async () => {
       const data = await getPokemonFromId(1)
 
-      expect(data).toEqual(pokemonMock)
+      expect(data).toEqual({ ...makePokemon(1), id: '1' })
     })
   })
 
-  describe('getPokemonFromUrl', () => {
-    it('returns pokemon data from url', async () => {
-      const data = await getPokemonFromUrl('https://pokeapi.co/api/v2/pokemon/1')
-      expect(data).toEqual(pokemonMock)
-    })
-  })
   describe('getPokemonsList', () => {
     it('returns pokemon list', async () => {
-      const list = await getPokemonsList()
+      const paginatedResult = await getPokemonsList()
 
-      expect(list.results).toHaveLength(2)
-      expect(list.results[0]).toEqual(pokemonMock)
+      const { name, id, spriteUrl, types } = makePokemon(1)
+      expect(paginatedResult.data.items).toHaveLength(2)
+      expect(paginatedResult.data.items[0]).toEqual({ name, id, spriteUrl, types })
     })
 
     it('returns pokemon list for page', async () => {
-      const list = await getPokemonsList(1)
+      const paginatedResult = await getPokemonsList({ page: 1 })
 
-      expect(list.results).toHaveLength(2)
-      expect(list.results[0]).toEqual(pokemonMock)
+      const { name, id, spriteUrl, types } = makePokemon(1)
+      expect(paginatedResult.data.items).toHaveLength(2)
+      expect(paginatedResult.data.items[0]).toEqual({ name, id, spriteUrl, types })
+    })
+
+    it('returns pokemon list for a name', async () => {
+      const paginatedResult = await getPokemonsList({ page: 1, name: 'ivi' })
+
+      const { name, id, spriteUrl, types } = makePokemon(1)
+      expect(paginatedResult.data.items).toHaveLength(2)
+      expect(paginatedResult.data.items[0]).toEqual({ name, id, spriteUrl, types })
     })
   })
 })

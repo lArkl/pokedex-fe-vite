@@ -1,22 +1,11 @@
-import { Pokemon } from '../../requests/getPokemons'
+import { PokemonDto } from '../../requests/dto'
+import pokemonJson from '../responses/pokemon.json'
 
-export const makePokemon = (id = 1): Pokemon => ({
-  name: `bulbasaur${id ? id.toString() : ''}`,
-  abilites: ['ab1', 'ab2'],
-  moves: ['m1', 'm2'],
-  stats: [{ name: 's1', value: 1 }],
-  height: 1,
-  weight: 1,
-  id: id,
-  types: [{ type: { name: 't1', url: '' }, slot: 1 }],
-  sprites: {
-    default: {
-      frontUrl: '',
-      backUrl: '',
-    },
-    shiny: {
-      frontUrl: '',
-      backUrl: '',
-    },
-  },
-})
+export const makePokemon = (id = 1): PokemonDto => {
+  const pokemon = { ...pokemonJson.data }
+  return {
+    ...pokemon,
+    id: id,
+    name: `bulbasaur${id ? id.toString() : ''}`,
+  }
+}

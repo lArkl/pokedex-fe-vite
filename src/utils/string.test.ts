@@ -12,4 +12,8 @@ describe('capitalize', () => {
   it('returns capitalized string from a sentence with spacing', () => {
     expect(capitalize(' world')).toBe(' World')
   })
+
+  it('returns capitalized string of one char', () => {
+    expect(capitalize(' a hollow')).toBe(' A Hollow')
+  })
 })

@@ -5,7 +5,7 @@ export const capitalize = (sentence: string): string => {
       if (word.length > 1) {
         return word[0].toUpperCase() + word.substring(1)
       }
-      if (word.length > 0) {
+      if (word.length === 1) {
         return word[0].toUpperCase()
       }
       return word
