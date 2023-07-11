@@ -1,10 +1,10 @@
 import { FC } from 'react'
 import styles from './PokemonDetailMoves.module.scss'
-import { Pokemon } from '../../../requests/getPokemons'
 import Typography from '../../../components/Typography/Typography'
+import { PokemonDto } from '../../../requests/dto'
 
 interface PokemonDetailMovesProps {
-  pokemonInfo: Pokemon
+  pokemonInfo: PokemonDto
   className?: string
 }
 
@@ -13,9 +13,9 @@ const PokemonDetailMoves: FC<PokemonDetailMovesProps> = ({ pokemonInfo, classNam
     <div aria-label="moves" className={className}>
       <Typography variant="lg">Moves</Typography>
       <ul className={styles.moves}>
-        {pokemonInfo.moves.map((moveName, index) => (
-          <li key={`moves-${index}`} className={styles.move}>
-            <Typography variant="sm">{moveName}</Typography>
+        {pokemonInfo.moves.map((move) => (
+          <li key={`moves-${move.id}`} className={styles.move}>
+            <Typography variant="sm">{move.name}</Typography>
           </li>
         ))}
       </ul>

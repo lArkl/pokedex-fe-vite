@@ -11,8 +11,9 @@ describe('PokemonDetailAbout', () => {
     renderComponent()
 
     expect(screen.getByLabelText('about')).toBeInTheDocument()
-    expect(screen.getByLabelText('weight')).toHaveTextContent(/1 kg/i)
-    expect(screen.getByLabelText('height')).toHaveTextContent(/1 m/i)
+    expect(screen.getByLabelText('number')).toHaveTextContent('0001')
+    expect(screen.getByLabelText('weight')).toHaveTextContent(/6.9 kg/i)
+    expect(screen.getByLabelText('height')).toHaveTextContent(/0.7 m/i)
   })
 
   it('shows abilities', async () => {

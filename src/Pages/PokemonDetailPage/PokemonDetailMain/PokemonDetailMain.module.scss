@@ -5,9 +5,7 @@
 }
 
 .title {
-  justify-self: center;
-  align-items: start;
-  display: flex;
+  margin: 1rem;
 }
 
 .types {
@@ -21,7 +19,6 @@
   justify-self: center;
   border-radius: 0.4rem;
   width: 100%;
-  // max-width: 40rem;
   height: 250px;
   padding: 1rem;
   display: flex;

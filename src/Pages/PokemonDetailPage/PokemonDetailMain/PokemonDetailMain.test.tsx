@@ -11,9 +11,8 @@ describe('PokemonDetailMain', () => {
     renderComponent()
 
     expect(screen.getByRole('heading', { name: /bulbasaur/i })).toBeInTheDocument()
-    expect(screen.getByText('1')).toBeInTheDocument()
     expect(screen.getByRole('img', { name: /bulbasaur/i })).toBeInTheDocument()
-    expect(screen.getByTestId('PokemonTypeBadge')).toBeInTheDocument()
+    expect(screen.getAllByTestId('PokemonTypeBadge')).toHaveLength(2)
   })
 
   it('accepts className', async () => {

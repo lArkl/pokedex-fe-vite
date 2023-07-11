@@ -1,10 +1,10 @@
 import { FC } from 'react'
 import styles from './PokemonDetailSprites.module.scss'
-import { Pokemon } from '../../../requests/getPokemons'
 import Typography from '../../../components/Typography/Typography'
+import { PokemonDto } from '../../../requests/dto'
 
 interface PokemonDetailSpritesProps {
-  pokemonInfo: Pokemon
+  pokemonInfo: PokemonDto
   className?: string
 }
 

@@ -1,11 +1,11 @@
 import { FC } from 'react'
 import styles from './PokemonDetailAbout.module.scss'
-import { Pokemon } from '../../../requests/getPokemons'
 import Typography from '../../../components/Typography/Typography'
 import classNames from 'classnames'
+import { PokemonDto } from '../../../requests/dto'
 
 interface PokemonDetailAboutProps {
-  pokemonInfo: Pokemon
+  pokemonInfo: PokemonDto
   className?: string
 }
 
@@ -16,6 +16,10 @@ const PokemonDetailAbout: FC<PokemonDetailAboutProps> = ({ pokemonInfo, classNam
         About
       </Typography>
       <div className={styles.main}>
+        <div className={styles.info} aria-label="number">
+          <Typography variant="md">Number</Typography>
+          <Typography variant="sm">{pokemonInfo.id.toString().padStart(4, '0')}</Typography>
+        </div>
         <div className={styles.info} aria-label="weight">
           <Typography variant="md">Weight</Typography>
           <Typography variant="sm">{pokemonInfo.weight} kg</Typography>
@@ -27,9 +31,9 @@ const PokemonDetailAbout: FC<PokemonDetailAboutProps> = ({ pokemonInfo, classNam
         <div className={styles.info} aria-label="abilities">
           <Typography variant="md">Abilities</Typography>
           <ul className={styles.abilities}>
-            {pokemonInfo.abilites.map((abilityName, index) => (
-              <li key={`ability-${index}`}>
-                <Typography variant="sm">{abilityName}</Typography>
+            {pokemonInfo.abilities.map((ability) => (
+              <li key={`ability-${ability.id}`}>
+                <Typography variant="sm">{ability.name}</Typography>
               </li>
             ))}
           </ul>
