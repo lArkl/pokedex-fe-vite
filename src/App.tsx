@@ -1,15 +1,19 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
-import PokemonDetail from './Pages/PokemonDetail'
-import PokemonList from './Pages/PokemonList'
+import PokemonDetailPage from './Pages/PokemonDetailPage'
+import PokemonListPage from './Pages/PokemonListPage'
 import { AppRoutes } from './routes/appRoutes'
+import Loader from './components/Loader'
+import PageNotFound from './Pages/PageNotFound/PageNotFound'
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={AppRoutes.PokemonList} element={<PokemonList />} />
-        <Route path={AppRoutes.PokemonDetail} element={<PokemonDetail />} />
+        <Route path="/" element={<Loader />} />
+        <Route path={AppRoutes.PokemonList} element={<PokemonListPage />} />
+        <Route path={AppRoutes.PokemonDetail} element={<PokemonDetailPage />} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>
   )
