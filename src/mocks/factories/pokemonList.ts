@@ -1,4 +1,4 @@
-import { PaginatedResponseDto, PaginationDto, PokemonItemDto } from '../../requests/dto'
+import { PaginationDto, PokemonItemDto } from '../../requests/dto'
 
 export const makePokemonItem = (id = 1): PokemonItemDto => ({
   name: `bulbasaur${id ? id.toString() : ''}`,
@@ -12,7 +12,6 @@ export const makePokemonItem = (id = 1): PokemonItemDto => ({
 export const makePokemonList = (size = 1): PaginationDto<PokemonItemDto> => ({
   count: 1281,
   items: Array.from({ length: size }, (_, id) => makePokemonItem(id + 1)),
-  page: 0,
+  page: 1,
   pageSize: 20,
-  totalPages: 64,
 })

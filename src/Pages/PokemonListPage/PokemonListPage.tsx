@@ -48,12 +48,12 @@ const PokemonListPage: FC = () => {
         throw response.error
       }
 
-      const { page, items, totalPages } = response.data
+      const { page, items, count } = response.data
       if (page !== pagination.page) {
         return
       }
-      setPokemonListData((prevItems) => (page > 0 && prevItems ? prevItems.concat(items) : items))
-      updatePagination(page + 1, totalPages)
+      setPokemonListData((prevItems) => (page > 1 && prevItems ? prevItems.concat(items) : items))
+      updatePagination(page + 1, count)
       setRequestState('success')
     } catch (err) {
       setRequestState('error')

@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { API_ENDPOINT } from '../config/main'
-import { ResponseDto, PaginatedResponseDto, PokemonDto, PokemonItemDto } from './dto'
+import { API_ENDPOINT, PAGE_SIZE } from '../config/main'
+import { ResponseDto, PaginatedResponseDto, PokemonDto, PokemonItemDto, ListItemDto } from './dto'
 
 const DELAY_TIME = 400
 
@@ -13,8 +13,6 @@ export const getPokemonFromIdRequest = async (id: number): Promise<PokemonDto> =
   const { data: response } = await waitRequest(axios.get<ResponseDto<PokemonDto>>(`${API_ENDPOINT}/pokemon/${id}`))
   return response.data
 }
-
-const PAGE_SIZE = 20
 
 interface PokemonListParams {
   page?: number
@@ -33,5 +31,10 @@ export const getPokemonsListRequest = async ({ page, name, signal, abilities, ty
       signal,
     }),
   )
+  return response
+}
+
+export const getPokemonTypes = async (signal?: AbortSignal): Promise<ResponseDto<ListItemDto[]>> => {
+  const { data: response } = await axios.get<ResponseDto<ListItemDto[]>>(`${API_ENDPOINT}/types`, { signal })
   return response
 }

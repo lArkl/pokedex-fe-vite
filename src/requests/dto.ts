@@ -6,7 +6,6 @@ export interface ResponseDto<T> {
 export interface PaginationDto<T> {
   items: T[]
   count: number
-  totalPages: number
   page: number
   pageSize: number
 }

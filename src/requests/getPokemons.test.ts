@@ -1,5 +1,6 @@
-import { getPokemonFromIdRequest, getPokemonsListRequest } from './getPokemons'
+import { getPokemonFromIdRequest, getPokemonTypes, getPokemonsListRequest } from './getPokemons'
 import { makePokemon } from '../mocks/factories/pokemon'
+import { makePokemonTypes } from '../mocks/factories/pokemonAttributes'
 
 describe('getPokemons', () => {
   describe('getPokemonFromId', () => {
@@ -7,6 +8,14 @@ describe('getPokemons', () => {
       const data = await getPokemonFromIdRequest(1)
 
       expect(data).toEqual({ ...makePokemon(1), id: '1' })
+    })
+  })
+
+  describe('getPokemonTypes', () => {
+    it('returns pokemon types list', async () => {
+      const data = await getPokemonTypes()
+
+      expect(data).toEqual({ data: makePokemonTypes(3), error: null })
     })
   })
 
