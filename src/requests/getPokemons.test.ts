@@ -1,10 +1,10 @@
-import { getPokemonFromId, getPokemonsList } from './getPokemons'
+import { getPokemonFromIdRequest, getPokemonsListRequest } from './getPokemons'
 import { makePokemon } from '../mocks/factories/pokemon'
 
 describe('getPokemons', () => {
   describe('getPokemonFromId', () => {
     it('returns pokemon data from id', async () => {
-      const data = await getPokemonFromId(1)
+      const data = await getPokemonFromIdRequest(1)
 
       expect(data).toEqual({ ...makePokemon(1), id: '1' })
     })
@@ -12,7 +12,7 @@ describe('getPokemons', () => {
 
   describe('getPokemonsList', () => {
     it('returns pokemon list', async () => {
-      const paginatedResult = await getPokemonsList()
+      const paginatedResult = await getPokemonsListRequest()
 
       const { name, id, spriteUrl, types } = makePokemon(1)
       expect(paginatedResult.data.items).toHaveLength(2)
@@ -20,7 +20,7 @@ describe('getPokemons', () => {
     })
 
     it('returns pokemon list for page', async () => {
-      const paginatedResult = await getPokemonsList({ page: 1 })
+      const paginatedResult = await getPokemonsListRequest({ page: 1 })
 
       const { name, id, spriteUrl, types } = makePokemon(1)
       expect(paginatedResult.data.items).toHaveLength(2)
@@ -28,7 +28,7 @@ describe('getPokemons', () => {
     })
 
     it('returns pokemon list for a name', async () => {
-      const paginatedResult = await getPokemonsList({ page: 1, name: 'ivi' })
+      const paginatedResult = await getPokemonsListRequest({ page: 1, name: 'ivi' })
 
       const { name, id, spriteUrl, types } = makePokemon(1)
       expect(paginatedResult.data.items).toHaveLength(2)

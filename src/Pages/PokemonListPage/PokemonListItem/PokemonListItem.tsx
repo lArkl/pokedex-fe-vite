@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Pokemon } from '../../../requests/getPokemons'
+import { PokemonItemDto } from '../../../requests/dto'
 import Typography from '../../../components/Typography/Typography'
 import { capitalize } from '../../../utils/strings'
 import PokemonTypeBadge from '../../../components/PokemonTypeBadge'
@@ -8,13 +8,13 @@ import styles from './PokemonListItem.module.scss'
 import { AppRoutes } from '../../../routes/appRoutes'
 
 interface PokemonListItemProps {
-  pokemonInfo: Pokemon
+  pokemonInfo: PokemonItemDto
 }
 
 const PokemonListItem: FC<PokemonListItemProps> = ({ pokemonInfo }) => {
   return (
     <article className={styles.container}>
-      <Link to={`${AppRoutes.PokemonList}/${pokemonInfo.id}`} className={styles.link}>
+      <Link to={AppRoutes.PokemonDetail.replace(':id', pokemonInfo.id.toString())} className={styles.link}>
         <Typography variant="lg">{capitalize(pokemonInfo.name)}</Typography>
         <Typography variant="md" className={styles.id}>
           {pokemonInfo.id}
@@ -25,7 +25,7 @@ const PokemonListItem: FC<PokemonListItemProps> = ({ pokemonInfo }) => {
       </div>
       <div className={styles.types}>
         {pokemonInfo.types.map((pokemonType) => (
-          <PokemonTypeBadge typeName={pokemonType.type.name} key={pokemonType.slot} />
+          <PokemonTypeBadge typeName={pokemonType.name} key={pokemonType.id} />
         ))}
       </div>
     </article>

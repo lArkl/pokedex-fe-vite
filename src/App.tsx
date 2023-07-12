@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
-import PokemonDetailPage from './Pages/PokemonDetailPage'
-import PokemonListPage from './Pages/PokemonListPage'
+import PokemonDetailPage from './pages/PokemonDetailPage'
+import PokemonListPage from './pages/PokemonListPage'
 import { AppRoutes } from './routes/appRoutes'
 import Loader from './components/Loader'
-import PageNotFound from './Pages/PageNotFound/PageNotFound'
+import PageNotFound from './pages/PageNotFound/PageNotFound'
 
 function App() {
   return (
