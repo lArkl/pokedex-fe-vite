@@ -4,7 +4,7 @@ exports[`ErrorPage > renders component 1`] = `
 <DocumentFragment>
   <div
     aria-label="error"
-    class="_container_4d13f2"
+    class="_container_5b477e"
   >
     <h1
       class="_xl_bcfef7"

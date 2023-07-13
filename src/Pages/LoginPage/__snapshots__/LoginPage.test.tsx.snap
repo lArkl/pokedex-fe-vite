@@ -3,10 +3,10 @@
 exports[`LoginPage > renders component 1`] = `
 <DocumentFragment>
   <div
-    class="_container_951041"
+    class="_container_b43b24"
   >
     <h1
-      class="_xl_bcfef7 _header_951041"
+      class="_xl_bcfef7 _header_b43b24"
     >
       Welcome to the Pokedex
     </h1>
@@ -20,7 +20,7 @@ exports[`LoginPage > renders component 1`] = `
       />
     </div>
     <div
-      class="_powered_951041"
+      class="_powered_b43b24"
     >
       <p
         class="_md_bcfef7"
@@ -29,7 +29,7 @@ exports[`LoginPage > renders component 1`] = `
       </p>
       <div
         aria-label="icons"
-        class="_icons_951041"
+        class="_icons_b43b24"
       >
         <img
           alt="vite icon"
@@ -38,7 +38,7 @@ exports[`LoginPage > renders component 1`] = `
         />
         <img
           alt="react icon"
-          class="_reactIcon_951041"
+          class="_reactIcon_b43b24"
           src="/react.svg"
           width="50"
         />
@@ -48,7 +48,7 @@ exports[`LoginPage > renders component 1`] = `
       href="/pokemons"
     >
       <button
-        class="_container_f8f296 _secondary_f8f296 _search_951041"
+        class="_container_f8f296 _secondary_f8f296 _search_b43b24"
       >
         Search Pokemons
       </button>
