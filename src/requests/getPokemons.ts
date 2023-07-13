@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { API_ENDPOINT, PAGE_SIZE } from '../config/main'
 import { ResponseDto, PaginatedResponseDto, PokemonDto, PokemonItemDto, ListItemDto } from './dto'
 
@@ -25,13 +25,20 @@ interface PokemonListParams {
 export const getPokemonsListRequest = async ({ page, name, signal, abilities, types }: PokemonListParams = {}): Promise<
   PaginatedResponseDto<PokemonItemDto>
 > => {
-  const { data: response } = await waitRequest(
-    axios.get<PaginatedResponseDto<PokemonItemDto>>(`${API_ENDPOINT}/pokemons`, {
-      params: { page, name, pageSize: PAGE_SIZE, abilities, types },
-      signal,
-    }),
-  )
-  return response
+  try {
+    const { data: response } = await waitRequest(
+      axios.get<PaginatedResponseDto<PokemonItemDto>>(`${API_ENDPOINT}/pokemons`, {
+        params: { page, name, pageSize: PAGE_SIZE, abilities, types },
+        signal,
+      }),
+    )
+    return response
+  } catch (err) {
+    if (err instanceof AxiosError && err.code === 'ERR_CANCELED') {
+      return { data: { items: [], page: 1, count: 0, pageSize: PAGE_SIZE }, error: null }
+    }
+    throw err
+  }
 }
 
 export const getPokemonTypes = async (signal?: AbortSignal): Promise<ResponseDto<ListItemDto[]>> => {

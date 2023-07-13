@@ -85,7 +85,7 @@ const PokemonListPage: FC = () => {
       ) : (
         <>
           <PokemonListFilter onFilter={onFilter} />
-          {requestState !== 'loading' && pokemonListData ? (
+          {requestState === 'success' && pokemonListData ? (
             <>
               <PokemonList pokemonList={pokemonListData} />
               <Paginator
