@@ -1,42 +1,80 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useMemo } from 'react'
 import Button from '../../../components/Button'
 import styles from './PokemonListFilter.module.scss'
 import Input from '../../../components/Input'
-import Typography from '../../../components/Typography/Typography'
+import { UsePokemonContext } from '../../../context/PokemonProvider'
+import MultiSelect from '../../../components/MultiSelect'
+import { Option } from '../../../shared/types'
+import { useSearchParams } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import Fieldset from '../../../components/Fieldset/Fieldset'
 
-interface PokemonListFilterProps {
-  initialValue?: string
-  onFilter: (filterField: string) => void
-  onClear: () => void
+interface FilterFormProps {
+  name: string
+  types: Option[]
 }
 
-const PokemonListFilter: FC<PokemonListFilterProps> = ({ onFilter, onClear, initialValue = '' }) => {
-  const [filterField, setFilterField] = useState<string>(initialValue)
+interface PokemonListFilterProps {
+  onFilter: () => void
+  onClear?: () => void
+}
+
+const PokemonListFilter: FC<PokemonListFilterProps> = ({ onFilter, onClear }) => {
+  const pokemonContextData = UsePokemonContext()
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const initialValues = useMemo(
+    () => ({
+      name: searchParams.get('name') ?? '',
+      types: searchParams
+        .getAll('types')
+        .map((value) => pokemonContextData.types.find((option) => option.value === parseInt(value))) as Option[],
+    }),
+    [pokemonContextData.types, searchParams],
+  )
+
+  const { control, handleSubmit, reset } = useForm<FilterFormProps>({ defaultValues: { name: '', types: [] } })
+
+  useEffect(() => {
+    reset(initialValues)
+  }, [initialValues, reset])
 
   return (
-    <div className={styles.container}>
-      <label htmlFor="filter">
-        <Typography variant="md">Filter by name</Typography>
-      </label>
-      <Input id="filter" name="filter" value={filterField} onChange={(evt) => setFilterField(evt.target.value)} />
+    <form
+      data-testid="list_filter"
+      className={styles.container}
+      onSubmit={handleSubmit((data) => {
+        const params = new URLSearchParams({
+          name: data.name,
+        })
+        data.types.forEach((typeOption) => {
+          params.append('types', typeOption.value.toString())
+        })
+        onFilter()
+        setSearchParams(params)
+      })}
+    >
+      <Fieldset name="name" label="Pokemon Name">
+        <Input control={control} name="name" />
+      </Fieldset>
+      <Fieldset name="types" label="Pokemon Types">
+        <MultiSelect options={pokemonContextData.types} name="types" control={control} />
+      </Fieldset>
       <div className={styles.buttons}>
-        <Button variant="primary" onClick={() => onFilter(filterField)}>
-          Filter
+        <Button variant="primary">Search</Button>
+        <Button
+          variant="secondary"
+          type="button"
+          className={styles.button}
+          onClick={() => {
+            onClear?.()
+            setSearchParams()
+          }}
+        >
+          Clear
         </Button>
-        {filterField.length > 0 ? (
-          <Button
-            variant="secondary"
-            className={styles.button}
-            onClick={() => {
-              setFilterField('')
-              onClear()
-            }}
-          >
-            Clear
-          </Button>
-        ) : null}
       </div>
-    </div>
+    </form>
   )
 }
 

@@ -1,0 +1,26 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ErrorPage > renders component 1`] = `
+<DocumentFragment>
+  <div
+    aria-label="error"
+    class="_container_4d13f2"
+  >
+    <h1
+      class="_xl_bcfef7"
+    >
+      Something went wrong...
+    </h1>
+    <h2
+      class="_lg_bcfef7"
+    >
+      Try reloading the page in some seconds
+    </h2>
+    <p
+      class="_md_bcfef7"
+    >
+      If this persists, contact to IT
+    </p>
+  </div>
+</DocumentFragment>
+`;

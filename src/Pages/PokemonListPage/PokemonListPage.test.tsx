@@ -26,8 +26,8 @@ describe('PokemonListPage', () => {
   it('shows filter and list', async () => {
     renderComponent()
 
-    expect(await screen.findByRole('button', { name: /filter/i })).toBeInTheDocument()
-    expect(screen.getByRole('textbox', { name: /filter/i })).toBeInTheDocument()
+    expect(await screen.findByRole('button', { name: /search/i })).toBeInTheDocument()
+    expect(screen.getByRole('textbox', { name: /name/i })).toBeInTheDocument()
 
     expect(await screen.findAllByRole('heading', { name: /bulbasaur/i })).toHaveLength(2)
   })

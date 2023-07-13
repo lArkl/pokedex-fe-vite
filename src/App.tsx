@@ -5,17 +5,20 @@ import PokemonDetailPage from './pages/PokemonDetailPage'
 import PokemonListPage from './pages/PokemonListPage'
 import PageNotFound from './pages/PageNotFound/PageNotFound'
 import LoginPage from './pages/LoginPage'
+import PokemonProvider from './context/PokemonProvider'
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LoginPage />} />
-        <Route path={AppRoutes.PokemonList} element={<PokemonListPage />} />
-        <Route path={AppRoutes.PokemonDetail} element={<PokemonDetailPage />} />
-        <Route path="*" element={<PageNotFound />} />
-      </Routes>
-    </BrowserRouter>
+    <PokemonProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path={AppRoutes.PokemonList} element={<PokemonListPage />} />
+          <Route path={AppRoutes.PokemonDetail} element={<PokemonDetailPage />} />
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </PokemonProvider>
   )
 }
 

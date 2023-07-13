@@ -3,6 +3,12 @@ import ErrorPage from './ErrorPage'
 
 describe('ErrorPage', () => {
   it('renders component', async () => {
+    const { asFragment } = render(<ErrorPage />)
+
+    expect(asFragment()).toMatchSnapshot()
+  })
+
+  it('shows message', async () => {
     render(<ErrorPage />)
 
     expect(screen.getByLabelText('error')).toBeInTheDocument()

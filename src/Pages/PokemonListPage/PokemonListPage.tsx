@@ -14,14 +14,10 @@ import usePaginationParams from '../../hooks/usePaginationParams'
 const PokemonListPage: FC = () => {
   const [pokemonListData, setPokemonListData] = useState<PokemonItemDto[]>()
   const { requestState, setRequestState } = useRequestState()
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams] = useSearchParams()
   const controllerRef = useRef<AbortController>()
 
   const { clearPages, updatePagination, getPagination } = usePaginationParams()
-
-  const resetList = () => {
-    setSearchParams()
-  }
 
   const fetchData = useCallback(async () => {
     if (!controllerRef.current) {
@@ -41,6 +37,7 @@ const PokemonListPage: FC = () => {
       const response = await getPokemonsListRequest({
         name: pokemonName,
         page: pagination.page,
+        types: searchParams.getAll('types').map((value) => parseInt(value)),
         signal: controllerRef.current?.signal,
       })
 
@@ -60,15 +57,8 @@ const PokemonListPage: FC = () => {
     }
   }, [getPagination, searchParams, setRequestState, updatePagination])
 
-  const updateFilter = (filterValue?: string) => {
-    const pokemonName = searchParams.get('name') ?? ''
-
-    if (filterValue !== pokemonName) {
-      setSearchParams(filterValue ? new URLSearchParams({ name: filterValue }) : undefined)
-    } else {
-      controllerRef.current?.abort()
-      fetchData()
-    }
+  const onFilter = () => {
+    controllerRef.current?.abort()
   }
   const observerTargetRef = useInfiniteScroll(fetchData)
 
@@ -85,11 +75,7 @@ const PokemonListPage: FC = () => {
   return (
     <>
       <div className={styles.container}>
-        <PokemonListFilter
-          onClear={resetList}
-          onFilter={(filterName) => updateFilter(filterName)}
-          initialValue={searchParams.get('name') ?? ''}
-        />
+        <PokemonListFilter onFilter={onFilter} />
         {requestState !== 'init' && pokemonListData ? <PokemonList pokemonList={pokemonListData} /> : null}
         {requestState === 'loading' ? <Loader /> : null}
         <div ref={observerTargetRef}></div>
