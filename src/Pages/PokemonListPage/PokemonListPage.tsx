@@ -2,14 +2,14 @@ import { FC, useEffect, useState, useCallback, useRef, useMemo } from 'react'
 import { getPokemonsListRequest } from '../../requests/getPokemons'
 import { PokemonItemDto } from '../../requests/dto'
 import Loader from '../../components/Loader'
-import PokemonListFilter from './PokemonListFilter'
 import { useRequestState } from '../../hooks/useRequestState'
 import ErrorPage from '../ErrorPage/ErrorPage'
-import PokemonList from './PokemonList'
 import styles from './PokemonListPage.module.scss'
 import { useSearchParams } from 'react-router-dom'
 import Paginator from '../../components/Paginator/Paginator'
 import { PAGE_SIZE } from '../../config/main'
+import PokemonListFilter from './PokemonListFilter'
+import PokemonList from './PokemonList'
 
 const PokemonListPage: FC = () => {
   const [pokemonListData, setPokemonListData] = useState<PokemonItemDto[]>()

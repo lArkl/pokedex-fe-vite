@@ -1,5 +1,5 @@
 import { FC, ReactNode } from 'react'
-import Typography from '../Typography/Typography'
+import Typography from '../Typography'
 import classNames from 'classnames'
 import styles from './Fieldset.module.scss'
 

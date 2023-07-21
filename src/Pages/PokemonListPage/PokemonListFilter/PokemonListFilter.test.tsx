@@ -1,6 +1,6 @@
 import { screen, fireEvent } from '@testing-library/react'
 import { vi } from 'vitest'
-import PokemonListFilter from '.'
+import PokemonListFilter from './PokemonListFilter'
 import { customRender } from '../../../context/TestProvider'
 
 const onFilterMock = vi.fn()

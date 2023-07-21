@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import Typography from '../../components/Typography/Typography'
+import Typography from '../../components/Typography'
 import viteIcon from '/vite.svg'
 import reactIcon from '/react.svg'
 import { Link } from 'react-router-dom'
