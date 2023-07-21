@@ -3,7 +3,7 @@ import styles from './Paginator.module.scss'
 import classNames from 'classnames'
 import { usePagination, needsDots } from './usePagination'
 import Button from '../Button'
-import Typography from '../Typography/Typography'
+import Typography from '../Typography'
 
 export interface PaginatorProps {
   pageSize: number
@@ -20,9 +20,21 @@ const Paginator: FC<PaginatorProps> = ({
   className,
   setCurrentPage,
 }: PaginatorProps) => {
-  const indexRange = usePagination({ currentPage, pageSize, totalCount })
+  const totalPages = Math.ceil(totalCount / pageSize)
+  const indexRange = usePagination({ currentPage, totalPages })
   return (
     <ul className={classNames(styles.container, className)}>
+      <li className={styles.item}>
+        <Button
+          className={styles.arrow}
+          disabled={currentPage <= 1}
+          onClick={() => {
+            setCurrentPage(currentPage - 1)
+          }}
+        >
+          {'<'}
+        </Button>
+      </li>
       {indexRange.map((pageIndex) => {
         const isDots = needsDots(pageIndex)
         return (
@@ -42,6 +54,17 @@ const Paginator: FC<PaginatorProps> = ({
           </li>
         )
       })}
+      <li className={styles.item}>
+        <Button
+          className={styles.arrow}
+          disabled={currentPage >= totalPages}
+          onClick={() => {
+            setCurrentPage(currentPage + 1)
+          }}
+        >
+          {'>'}
+        </Button>
+      </li>
     </ul>
   )
 }

@@ -18,6 +18,18 @@
   }
 }
 
+.arrow {
+  background-color: #3f3f3f;
+  color: white;
+  &:hover {
+    background-color: #555555;
+  }
+
+  &:disabled {
+    background-color: #949393;
+  }
+}
+
 .current {
   background-color: #3b3e85;
 }

@@ -2,8 +2,7 @@ import { useMemo } from 'react'
 
 interface UsePaginationProps {
   currentPage: number
-  pageSize: number
-  totalCount: number
+  totalPages: number
   siblingCount?: number
 }
 const getIndexRange = (start: number, end: number): number[] =>
@@ -11,10 +10,8 @@ const getIndexRange = (start: number, end: number): number[] =>
 
 const DOTS = -1000
 
-export const usePagination = ({ currentPage, pageSize, totalCount, siblingCount = 1 }: UsePaginationProps) => {
+export const usePagination = ({ currentPage, totalPages, siblingCount = 1 }: UsePaginationProps) => {
   const paginationRange = useMemo(() => {
-    const totalPages = Math.ceil(totalCount / pageSize)
-
     const pageNumbers = 5 + siblingCount
 
     if (pageNumbers >= totalPages) {
@@ -40,7 +37,7 @@ export const usePagination = ({ currentPage, pageSize, totalCount, siblingCount 
     }
 
     return [firstPageIndex, DOTS, ...getIndexRange(leftSiblingIndex, rightSiblingIndex), DOTS, totalPages]
-  }, [totalCount, pageSize, siblingCount, currentPage])
+  }, [siblingCount, totalPages, currentPage])
 
   return paginationRange
 }
