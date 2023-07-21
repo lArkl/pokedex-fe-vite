@@ -2,7 +2,7 @@ import { FC } from 'react'
 import styles from './PokemonList.module.scss'
 import { PokemonItemDto } from '../../../requests/dto'
 import PokemonListItem from '../PokemonListItem'
-import Typography from '../../../components/Typography/Typography'
+import Typography from '../../../components/Typography'
 
 interface PokemonListProps {
   pokemonList: PokemonItemDto[]

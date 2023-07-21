@@ -1,10 +1,11 @@
 import { FC } from 'react'
 import styles from './PokemonDetailMain.module.scss'
-import Typography from '../../../components/Typography/Typography'
+import Typography from '../../../components/Typography'
 import PokemonTypeBadge from '../../../components/PokemonTypeBadge'
 import classNames from 'classnames'
 import { capitalize } from '../../../utils/strings'
 import { PokemonDto } from '../../../requests/dto'
+import { DEFAULT_SPRITE } from '../../../config/main'
 
 interface PokemonDetailMainProps {
   pokemonInfo: PokemonDto
@@ -18,7 +19,7 @@ const PokemonDetailMain: FC<PokemonDetailMainProps> = ({ pokemonInfo, className 
         {capitalize(pokemonInfo.name)}
       </Typography>
       <div className={styles.sprite} style={{ backgroundColor: `var(--color-${pokemonInfo.types[0].name})` }}>
-        <img src={pokemonInfo.spriteUrl} alt={pokemonInfo.name} width={200} height={200} />
+        <img src={pokemonInfo.spriteUrl ?? DEFAULT_SPRITE} alt={pokemonInfo.name} width={200} height={200} />
       </div>
       <div className={styles.types} aria-label="types">
         {pokemonInfo.types.map((pokeType) => (

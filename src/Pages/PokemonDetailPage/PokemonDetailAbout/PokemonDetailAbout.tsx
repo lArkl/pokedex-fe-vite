@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import styles from './PokemonDetailAbout.module.scss'
-import Typography from '../../../components/Typography/Typography'
+import Typography from '../../../components/Typography'
 import classNames from 'classnames'
 import { PokemonDto } from '../../../requests/dto'
 

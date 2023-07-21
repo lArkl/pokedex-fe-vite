@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import Typography from '../../components/Typography/Typography'
+import Typography from '../../components/Typography'
 import styles from './PageNotFound.module.scss'
 
 const PageNotFound: FC = () => {

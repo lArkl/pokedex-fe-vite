@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { AppRoutes } from '../../routes/appRoutes'
-import PokemonListPage from '.'
+import PokemonListPage from './PokemonListPage'
 import { server } from '../../mocks/server'
 import { rest } from 'msw'
 import { API_ENDPOINT } from '../../config/main'

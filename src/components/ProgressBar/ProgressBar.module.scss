@@ -15,6 +15,14 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  transform-origin: left;
+  animation: grow 1.5s;
+}
+
+@keyframes grow {
+  0% {
+    transform: scaleX(0.1);
+  }
 }
 
 .value {

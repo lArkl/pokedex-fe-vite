@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import PokemonList from '.'
+import PokemonList from './PokemonList'
 import { makePokemonList } from '../../../mocks/factories/pokemonList'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { AppRoutes } from '../../../routes/appRoutes'

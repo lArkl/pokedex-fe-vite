@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import Typography from '../../../components/Typography/Typography'
+import Typography from '../../../components/Typography'
 import { PokemonDto } from '../../../requests/dto'
 import ProgressBar from '../../../components/ProgressBar'
 import styles from './PokemonDetailStats.module.scss'

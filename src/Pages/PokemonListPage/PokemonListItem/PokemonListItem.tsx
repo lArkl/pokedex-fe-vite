@@ -1,11 +1,12 @@
 import { FC } from 'react'
 import { PokemonItemDto } from '../../../requests/dto'
-import Typography from '../../../components/Typography/Typography'
+import Typography from '../../../components/Typography'
 import { capitalize } from '../../../utils/strings'
 import PokemonTypeBadge from '../../../components/PokemonTypeBadge'
 import { Link } from 'react-router-dom'
 import styles from './PokemonListItem.module.scss'
 import { AppRoutes } from '../../../routes/appRoutes'
+import { DEFAULT_SPRITE } from '../../../config/main'
 
 interface PokemonListItemProps {
   pokemonInfo: PokemonItemDto
@@ -21,7 +22,7 @@ const PokemonListItem: FC<PokemonListItemProps> = ({ pokemonInfo }) => {
         </Typography>
       </Link>
       <div className={styles.image}>
-        <img src={pokemonInfo.spriteUrl} alt={pokemonInfo.name} width={180} height={180} />
+        <img src={pokemonInfo.spriteUrl ?? DEFAULT_SPRITE} alt={pokemonInfo.name} width={180} height={180} />
       </div>
       <div className={styles.types}>
         {pokemonInfo.types.map((pokemonType) => (
