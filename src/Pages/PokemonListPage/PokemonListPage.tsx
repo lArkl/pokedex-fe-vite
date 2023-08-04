@@ -10,6 +10,7 @@ import Paginator from '../../components/Paginator/Paginator'
 import { PAGE_SIZE } from '../../config/main'
 import PokemonListFilter from './PokemonListFilter'
 import PokemonList from './PokemonList'
+import { parseFilterParams } from './PokemonListFilter/pokemonListFilter.utils'
 
 const PokemonListPage: FC = () => {
   const [pokemonListData, setPokemonListData] = useState<PokemonItemDto[]>()
@@ -37,18 +38,17 @@ const PokemonListPage: FC = () => {
       controllerRef.current = new AbortController()
     }
 
-    const pokemonName = searchParams.get('name') ?? ''
-
     setRequestState('loading')
 
     try {
+      const parsedParams = parseFilterParams(searchParams)
       const response = await getPokemonsListRequest({
-        name: pokemonName,
+        name: parsedParams.name,
         page: currentPage,
-        types: searchParams.getAll('types').map((value) => parseInt(value)),
+        types: parsedParams.typesIds,
+        abilities: parsedParams.abilitiesIds,
         signal: controllerRef.current?.signal,
       })
-
       if (response.error) {
         throw response.error
       }

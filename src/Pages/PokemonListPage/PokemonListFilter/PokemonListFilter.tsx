@@ -1,18 +1,14 @@
-import { FC, useEffect, useMemo } from 'react'
+import { FC, useEffect, useRef } from 'react'
 import Button from '../../../components/Button'
 import styles from './PokemonListFilter.module.scss'
 import Input from '../../../components/Input'
 import { UsePokemonContext } from '../../../context/PokemonProvider'
 import MultiSelect from '../../../components/MultiSelect'
-import { Option } from '../../../shared/types'
 import { useSearchParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import Fieldset from '../../../components/Fieldset/Fieldset'
-
-interface FilterFormProps {
-  name: string
-  types: Option[]
-}
+import { getPokemonAbilities } from '../../../requests/getPokemons'
+import { FilterFormProps, formatFilterParams, parseFilterParams } from './pokemonListFilter.utils'
 
 interface PokemonListFilterProps {
   onFilter: () => void
@@ -23,35 +19,35 @@ const PokemonListFilter: FC<PokemonListFilterProps> = ({ onFilter, onClear }) =>
   const pokemonContextData = UsePokemonContext()
   const [searchParams, setSearchParams] = useSearchParams()
 
-  const initialValues = useMemo(
-    () => ({
-      name: searchParams.get('name') ?? '',
-      types: searchParams
-        .getAll('types')
-        .map((value) => pokemonContextData.types.find((option) => option.value === parseInt(value))) as Option[],
-    }),
-    [pokemonContextData.types, searchParams],
-  )
-
   const { control, handleSubmit, reset } = useForm<FilterFormProps>({ defaultValues: { name: '', types: [] } })
 
   useEffect(() => {
-    reset(initialValues)
-  }, [initialValues, reset])
+    const resetForm = async () => {
+      const { abilitiesIds, typesIds, name } = parseFilterParams(searchParams)
+      const abilities = abilitiesIds?.length
+        ? await getPokemonAbilities({ ids: abilitiesIds }).then((response) =>
+            response.data.items.map(({ id, name }) => ({ label: name, value: id })),
+          )
+        : []
+      const types = pokemonContextData.types.filter((type) => typesIds.includes(type.value))
+      reset({
+        name,
+        types,
+        abilities,
+      })
+    }
+    resetForm()
+  }, [pokemonContextData.types, reset, searchParams])
+
+  const timeoutRef = useRef<NodeJS.Timeout>()
 
   return (
     <form
       data-testid="list_filter"
       className={styles.container}
       onSubmit={handleSubmit((data) => {
-        const params = new URLSearchParams({
-          name: data.name,
-        })
-        data.types.forEach((typeOption) => {
-          params.append('types', typeOption.value.toString())
-        })
         onFilter()
-        setSearchParams(params)
+        setSearchParams(formatFilterParams(data))
       })}
     >
       <Fieldset name="name" label="Pokemon Name">
@@ -59,6 +55,26 @@ const PokemonListFilter: FC<PokemonListFilterProps> = ({ onFilter, onClear }) =>
       </Fieldset>
       <Fieldset name="types" label="Pokemon Types">
         <MultiSelect options={pokemonContextData.types} name="types" control={control} />
+      </Fieldset>
+      <Fieldset name="abilities" label="Pokemon Abilities">
+        <MultiSelect
+          loadOptions={async (inputValue) => {
+            return new Promise((resolve) => {
+              if (timeoutRef.current) {
+                clearTimeout(timeoutRef.current)
+              }
+              timeoutRef.current = setTimeout(async () => {
+                getPokemonAbilities({ name: inputValue })
+                  .then(({ data }) => {
+                    return data.items.map(({ id, name }) => ({ label: name, value: id }))
+                  })
+                  .then(resolve)
+              }, 1000)
+            })
+          }}
+          name="abilities"
+          control={control}
+        />
       </Fieldset>
       <div className={styles.buttons}>
         <Button variant="primary">Search</Button>

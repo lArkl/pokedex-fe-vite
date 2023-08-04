@@ -45,3 +45,25 @@ export const getPokemonTypes = async (signal?: AbortSignal): Promise<ResponseDto
   const { data: response } = await axios.get<ResponseDto<ListItemDto[]>>(`${API_ENDPOINT}/types`, { signal })
   return response
 }
+
+export const getPokemonAbilities = async (
+  params?: Partial<{ name: string; ids: number[] }>,
+  signal?: AbortSignal,
+): Promise<PaginatedResponseDto<ListItemDto>> => {
+  const { data: response } = await axios.get<PaginatedResponseDto<ListItemDto>>(`${API_ENDPOINT}/abilities`, {
+    params,
+    signal,
+  })
+  return response
+}
+
+export const getPokemonAbilitiesByIds = async (
+  name: string,
+  signal?: AbortSignal,
+): Promise<PaginatedResponseDto<ListItemDto>> => {
+  const { data: response } = await axios.get<PaginatedResponseDto<ListItemDto>>(`${API_ENDPOINT}/abilities`, {
+    params: { name },
+    signal,
+  })
+  return response
+}
