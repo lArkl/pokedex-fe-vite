@@ -7,7 +7,7 @@ const setCurrentPageMock = vi.fn()
 const renderComponent = (props?: Partial<PaginatorProps>) =>
   render(<Paginator currentPage={1} totalCount={15} pageSize={5} setCurrentPage={setCurrentPageMock} {...props} />)
 
-describe('Fieldset', () => {
+describe('Paginator', () => {
   it('renders component', async () => {
     const { asFragment } = renderComponent()
 
@@ -17,13 +17,13 @@ describe('Fieldset', () => {
     renderComponent()
 
     expect(screen.getByRole('list')).toBeInTheDocument()
-    expect(screen.getAllByRole('listitem')).toHaveLength(3)
+    expect(screen.getAllByRole('listitem')).toHaveLength(5)
   })
 
   it('calls setCurrentPage', async () => {
     renderComponent()
 
-    const pageItem = screen.getAllByRole('listitem')[1]
+    const pageItem = screen.getAllByRole('listitem')[2]
     const pageButton = within(pageItem).getByRole('button', { name: '2' })
 
     fireEvent.click(pageButton)

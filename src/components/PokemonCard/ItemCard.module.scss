@@ -1,0 +1,29 @@
+.container {
+  border: 1px solid black;
+  background-color: rgb(246, 246, 247);
+  border-radius: 0.8rem;
+  padding: 1rem;
+  &:hover {
+    background-color: rgb(217, 217, 221);
+  }
+}
+
+.id {
+  color: rgb(172, 172, 172);
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.image {
+  padding: 1rem;
+}
+
+.bottom {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}

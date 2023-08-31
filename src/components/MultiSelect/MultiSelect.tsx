@@ -44,6 +44,7 @@ export default function MultiSelectC<TFieldValues extends FieldValues>({
       styles: { control: (baseStyles: CSSObjectWithLabel) => ({ ...baseStyles, borderColor: 'black' }) },
       onChange: (newValue: MultiValue<Option>) => {
         const newValues = newValue.map(({ value, label }) => ({ value, label }))
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         onChange(newValues as any)
       },
     }),

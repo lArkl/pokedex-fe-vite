@@ -2,7 +2,7 @@ import { RenderOptions, render } from '@testing-library/react'
 import { ReactElement } from 'react'
 import { PokemonContext } from './PokemonProvider'
 
-const TestProvider = ({ children }: { children: React.ReactNode }) => {
+export const TestProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <PokemonContext.Provider
       value={{
