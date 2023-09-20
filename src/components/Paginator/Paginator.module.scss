@@ -7,9 +7,9 @@
 
   .page {
     width: 3rem;
-    background-color: #8f90d3;
+    background-color: var(--color-purple-6);
     &:hover {
-      background-color: #7677c2;
+      background-color: var(--color-purple-5);
     }
   }
 
@@ -18,18 +18,18 @@
   }
 
   .arrow {
-    background-color: #3f3f3f;
+    background-color: var(--color-gray-2);
     color: white;
     &:hover {
-      background-color: #555555;
+      background-color: var(--color-gray-3);
     }
 
     &:disabled {
-      background-color: #949393;
+      background-color: var(--color-gray-4);
     }
   }
 
   .current {
-    background-color: #3b3e85;
+    background-color: var(--color-purple-2);
   }
 }

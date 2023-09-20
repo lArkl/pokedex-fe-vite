@@ -7,20 +7,20 @@
 }
 
 .primary {
-  background-color: #dc0a2d;
+  background-color: var(--color-red-2);
 
   &:hover,
   &:active {
-    background-color: #aa0823;
+    background-color: var(--color-red-1);
   }
 }
 
 .secondary {
-  background-color: #5a1ef1;
+  background-color: var(--color-purple-4);
 
   &:hover,
   &:active {
-    background-color: #400dbe;
+    background-color: var(--color-purple-3);
   }
 }
 
