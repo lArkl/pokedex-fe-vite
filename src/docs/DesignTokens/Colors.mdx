@@ -1,0 +1,40 @@
+import { Meta } from '@storybook/blocks'
+import Colors from './Colors'
+
+<Meta title="Design Tokens/Colors" />
+
+# Colors
+
+<div className="sb-container">
+  <Colors
+    mainClassName="colors"
+    rowClassName="colorRow"
+    textClassName="colorRow__name"
+    cellClassName="colorRow__cells"
+  />
+</div>
+
+<style>
+  {`
+  .colors {
+    background-color: white;
+    border-radius: 0.4rem;
+    padding: 1rem;
+    margin-top: 1rem;
+    .colorRow {
+      display: flex;
+      border-bottom: 1px solid var(--color-gray-4);
+      margin-top: 1rem;
+
+      .colorRow__name {
+        margin-top: 0.5rem;
+        min-width: 6rem;
+      }
+    }
+    .colorRow__cells {
+      display: flex;
+      gap: 1rem;
+    }
+  }
+  `}
+</style>
