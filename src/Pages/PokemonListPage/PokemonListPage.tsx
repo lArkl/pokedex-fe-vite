@@ -1,8 +1,5 @@
-import { FC, useEffect, useState, useCallback, useRef, useMemo } from 'react'
-import { getPokemonsListRequest } from '../../requests/getPokemons'
-import { PokemonItemDto } from '../../requests/dto'
+import { FC, useCallback, useMemo } from 'react'
 import Loader from '../../components/Loader'
-import { useRequestState } from '../../hooks/useRequestState'
 import ErrorPage from '../ErrorPage/ErrorPage'
 import styles from './PokemonListPage.module.scss'
 import { useSearchParams } from 'react-router-dom'
@@ -11,13 +8,10 @@ import { PAGE_SIZE } from '../../config/main'
 import PokemonListFilter from './PokemonListFilter'
 import PokemonList from './PokemonList'
 import { parseFilterParams } from './PokemonListFilter/pokemonListFilter.utils'
+import usePokemonListQuery from '../../hooks/usePokemonListQuery'
 
 const PokemonListPage: FC = () => {
-  const [pokemonListData, setPokemonListData] = useState<PokemonItemDto[]>()
-  const { requestState, setRequestState } = useRequestState()
   const [searchParams, setSearchParams] = useSearchParams()
-  const controllerRef = useRef<AbortController>()
-  const [totalCount, setTotalCount] = useState<number>(0)
 
   const currentPage = useMemo(() => {
     const pageParam = searchParams.get('page')
@@ -33,59 +27,21 @@ const PokemonListPage: FC = () => {
     [searchParams, setSearchParams],
   )
 
-  const fetchData = useCallback(async () => {
-    if (!controllerRef.current) {
-      controllerRef.current = new AbortController()
-    }
-
-    setRequestState('loading')
-
-    try {
-      const parsedParams = parseFilterParams(searchParams)
-      const response = await getPokemonsListRequest({
-        name: parsedParams.name,
-        page: currentPage,
-        types: parsedParams.typesIds,
-        abilities: parsedParams.abilitiesIds,
-        signal: controllerRef.current?.signal,
-      })
-      if (response.error) {
-        throw response.error
-      }
-
-      const { page, items, count } = response.data
-      if (page !== currentPage) {
-        return
-      }
-      setPokemonListData(items)
-      setTotalCount(count)
-      setRequestState('success')
-    } catch (err) {
-      setRequestState('error')
-    }
-  }, [currentPage, searchParams, setRequestState])
-
-  const onFilter = () => {
-    controllerRef.current?.abort()
-  }
-
-  useEffect(() => {
-    fetchData()
-    return () => {
-      controllerRef.current?.abort()
-      controllerRef.current = undefined
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams])
+  const parsedParams = useMemo(() => parseFilterParams(searchParams), [searchParams])
+  const { isLoading, data, isError } = usePokemonListQuery({
+    ...parsedParams,
+    currentPage,
+  })
+  const { items: pokemonListData, count: totalCount } = data ?? { items: [], count: 0 }
 
   return (
     <div className={styles.container}>
-      {requestState === 'error' ? (
+      {isError ? (
         <ErrorPage />
       ) : (
         <>
-          <PokemonListFilter onFilter={onFilter} />
-          {requestState === 'success' && pokemonListData ? (
+          <PokemonListFilter />
+          {pokemonListData ? (
             <>
               <PokemonList pokemonList={pokemonListData} />
               <Paginator
@@ -96,7 +52,7 @@ const PokemonListPage: FC = () => {
               />
             </>
           ) : null}
-          {requestState === 'loading' ? <Loader /> : null}
+          {isLoading ? <Loader /> : null}
         </>
       )}
     </div>

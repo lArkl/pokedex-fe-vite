@@ -1,35 +1,22 @@
-import { FC, useEffect, useState } from 'react'
+import { FC } from 'react'
 import Loader from '../../components/Loader'
-import { getPokemonFromIdRequest } from '../../requests/getPokemons'
 import { useParams } from 'react-router-dom'
 import PokemonDetailMain from './PokemonDetailMain'
 import PokemonDetailAbout from './PokemonDetailAbout'
 import PokemonDetailSprites from './PokemonDetailSprites'
 import PokemonDetailStats from './PokemonDetailStats'
 import PokemonDetailMoves from './PokemonDetailMoves'
-import { PokemonDto } from '../../requests/dto'
-import { useRequestState } from '../../hooks/useRequestState'
 import ErrorPage from '../ErrorPage'
 import styles from './PokemonDetailPage.module.scss'
+import usePokemonDetailQuery from '../../hooks/usePokemonDetailQuery'
 
 const PokemonDetail: FC = () => {
-  const [pokemonInfo, setPokemonInfo] = useState<PokemonDto>()
-  const { requestState, setRequestState } = useRequestState()
   const { id } = useParams()
 
-  useEffect(() => {
-    setRequestState('loading')
-    getPokemonFromIdRequest(Number(id))
-      .then((data) => {
-        setPokemonInfo(data)
-        setRequestState('success')
-      })
-      .catch(() => setRequestState('error'))
-  }, [id, setRequestState])
-
+  const { isLoading, isError, data: pokemonInfo } = usePokemonDetailQuery(Number(id))
   return (
     <>
-      {requestState === 'success' && pokemonInfo ? (
+      {pokemonInfo ? (
         <div className={styles.details}>
           <PokemonDetailMain pokemonInfo={pokemonInfo} />
           <PokemonDetailAbout pokemonInfo={pokemonInfo} />
@@ -38,8 +25,8 @@ const PokemonDetail: FC = () => {
           <PokemonDetailSprites pokemonInfo={pokemonInfo} />
         </div>
       ) : null}
-      {requestState === 'loading' ? <Loader /> : null}
-      {requestState === 'error' ? <ErrorPage /> : null}
+      {isLoading ? <Loader /> : null}
+      {isError ? <ErrorPage /> : null}
     </>
   )
 }

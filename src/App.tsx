@@ -5,11 +5,13 @@ import PokemonDetailPage from './pages/PokemonDetailPage'
 import PokemonListPage from './pages/PokemonListPage'
 import PageNotFound from './pages/PageNotFound/PageNotFound'
 import LoginPage from './pages/LoginPage'
-import PokemonProvider from './context/PokemonProvider'
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
+
+const client = new QueryClient()
 
 function App() {
   return (
-    <PokemonProvider>
+    <QueryClientProvider client={client}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LoginPage />} />
@@ -18,7 +20,7 @@ function App() {
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
-    </PokemonProvider>
+    </QueryClientProvider>
   )
 }
 

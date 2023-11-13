@@ -9,8 +9,10 @@ const waitRequest = async <T>(promise: Promise<T>, delay = DELAY_TIME) => {
   return result
 }
 
-export const getPokemonFromIdRequest = async (id: number): Promise<PokemonDto> => {
-  const { data: response } = await waitRequest(axios.get<ResponseDto<PokemonDto>>(`${API_ENDPOINT}/pokemon/${id}`))
+export const getPokemonFromIdRequest = async (id: number, signal?: AbortSignal): Promise<PokemonDto> => {
+  const { data: response } = await waitRequest(
+    axios.get<ResponseDto<PokemonDto>>(`${API_ENDPOINT}/pokemon/${id}`, { signal }),
+  )
   return response.data
 }
 

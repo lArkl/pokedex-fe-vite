@@ -1,22 +1,37 @@
-import { FC, useEffect, useRef } from 'react'
+import { FC, useEffect, useState } from 'react'
 import Button from '../../../components/Button'
 import styles from './PokemonListFilter.module.scss'
 import Input from '../../../components/Input'
-import { UsePokemonContext } from '../../../context/PokemonProvider'
 import MultiSelect from '../../../components/MultiSelect'
 import { useSearchParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import Fieldset from '../../../components/Fieldset/Fieldset'
 import { getPokemonAbilities } from '../../../requests/getPokemons'
 import { FilterFormProps, formatFilterParams, parseFilterParams } from './pokemonListFilter.utils'
+import usePokemonTypesQuery from '../../../hooks/usePokemonTypesQuery'
+import usePokemonAbilitesQuery from '../../../hooks/usePokemonAbilitesQuery'
+import { InputActionMeta } from 'react-select'
 
 interface PokemonListFilterProps {
-  onFilter: () => void
+  onFilter?: () => void
   onClear?: () => void
 }
 
 const PokemonListFilter: FC<PokemonListFilterProps> = ({ onFilter, onClear }) => {
-  const pokemonContextData = UsePokemonContext()
+  const { data: pokemonTypes } = usePokemonTypesQuery()
+
+  const [abilityText, setAbilityText] = useState('')
+  const { data: abilitiesList, isFetching: isFetchingAbilities } = usePokemonAbilitesQuery(
+    { name: abilityText },
+    abilityText.length > 3,
+  )
+
+  const handleInputChange = (inputText: string, meta: InputActionMeta) => {
+    if (meta.action !== 'input-blur' && meta.action !== 'menu-close') {
+      setAbilityText(inputText)
+    }
+  }
+
   const [searchParams, setSearchParams] = useSearchParams()
 
   const { control, handleSubmit, reset } = useForm<FilterFormProps>({ defaultValues: { name: '', types: [] } })
@@ -29,7 +44,7 @@ const PokemonListFilter: FC<PokemonListFilterProps> = ({ onFilter, onClear }) =>
             response.data.items.map(({ id, name }) => ({ label: name, value: id })),
           )
         : []
-      const types = pokemonContextData.types.filter((type) => typesIds.includes(type.value))
+      const types = pokemonTypes?.filter((type) => typesIds.includes(type.value)) ?? []
       reset({
         name,
         types,
@@ -37,16 +52,14 @@ const PokemonListFilter: FC<PokemonListFilterProps> = ({ onFilter, onClear }) =>
       })
     }
     resetForm()
-  }, [pokemonContextData.types, reset, searchParams])
-
-  const timeoutRef = useRef<NodeJS.Timeout>()
+  }, [pokemonTypes, reset, searchParams])
 
   return (
     <form
       data-testid="list_filter"
       className={styles.container}
       onSubmit={handleSubmit((data) => {
-        onFilter()
+        onFilter?.()
         setSearchParams(formatFilterParams(data))
       })}
     >
@@ -54,26 +67,15 @@ const PokemonListFilter: FC<PokemonListFilterProps> = ({ onFilter, onClear }) =>
         <Input control={control} name="name" />
       </Fieldset>
       <Fieldset name="types" label="Pokemon Types">
-        <MultiSelect options={pokemonContextData.types} name="types" control={control} />
+        <MultiSelect options={pokemonTypes} name="types" control={control} />
       </Fieldset>
       <Fieldset name="abilities" label="Pokemon Abilities">
         <MultiSelect
-          loadOptions={async (inputValue) => {
-            return new Promise((resolve) => {
-              if (timeoutRef.current) {
-                clearTimeout(timeoutRef.current)
-              }
-              timeoutRef.current = setTimeout(async () => {
-                getPokemonAbilities({ name: inputValue })
-                  .then(({ data }) => {
-                    return data.items.map(({ id, name }) => ({ label: name, value: id }))
-                  })
-                  .then(resolve)
-              }, 1000)
-            })
-          }}
+          options={abilitiesList}
           name="abilities"
           control={control}
+          isLoading={isFetchingAbilities}
+          onInputChange={handleInputChange}
         />
       </Fieldset>
       <div className={styles.buttons}>

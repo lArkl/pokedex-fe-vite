@@ -1,7 +1,6 @@
-import { useMemo } from 'react'
-import Select, { CSSObjectWithLabel, MultiValue } from 'react-select'
-import Async from 'react-select/async'
-import { Control, FieldValues, useController, FieldPath } from 'react-hook-form'
+import { useMemo, useState } from 'react'
+import Select, { CSSObjectWithLabel, InputActionMeta, MultiValue } from 'react-select'
+import { Control, FieldValues, useController, FieldPath, PathValue, Path } from 'react-hook-form'
 import { Option } from '../../shared/types'
 import classNames from 'classnames'
 import styles from './MultiSelect.module.scss'
@@ -10,17 +9,21 @@ export interface MultiSelectProps<TFieldValues extends FieldValues> {
   name: FieldPath<TFieldValues>
   className?: string
   maxLength?: number
-  loadOptions?: (inputValue: string) => Promise<Option[]>
+  isLoading?: boolean
+  inputValue?: string
+  onInputChange?: (inputText: string, meta: InputActionMeta) => void
   options?: Option[]
   control: Control<TFieldValues>
 }
 
-export default function MultiSelectC<TFieldValues extends FieldValues>({
+export default function MultiSelect<TFieldValues extends FieldValues>({
   name,
   maxLength = 3,
-  loadOptions,
   control,
   options,
+  isLoading,
+  inputValue,
+  onInputChange,
   className,
 }: MultiSelectProps<TFieldValues>) {
   const {
@@ -41,19 +44,25 @@ export default function MultiSelectC<TFieldValues extends FieldValues>({
       ['aria-label']: `${name}_multiselect`,
       inputId: name,
       className: classNames([styles.container, className]),
+      filterOption: null,
       styles: { control: (baseStyles: CSSObjectWithLabel) => ({ ...baseStyles, borderColor: 'black' }) },
       onChange: (newValue: MultiValue<Option>) => {
         const newValues = newValue.map(({ value, label }) => ({ value, label }))
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        onChange(newValues as any)
+        onChange(newValues as PathValue<TFieldValues, Path<TFieldValues>>)
       },
     }),
     [className, name, onChange],
   )
 
-  return loadOptions ? (
-    <Async<Option, true> {...valueProps} {...props} isMulti={true} loadOptions={loadOptions} />
-  ) : (
-    <Select<Option, true> {...valueProps} {...props} isMulti={true} options={options} />
+  return (
+    <Select<Option, true>
+      {...valueProps}
+      {...props}
+      isMulti={true}
+      options={options}
+      onInputChange={onInputChange}
+      inputValue={inputValue}
+      isLoading={isLoading}
+    />
   )
 }
