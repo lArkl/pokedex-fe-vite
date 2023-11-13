@@ -1,13 +1,14 @@
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import PokemonDetailPage from './PokemonDetailPage'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { AppRoutes } from '../../routes/appRoutes'
 import { server } from '../../mocks/server'
 import { rest } from 'msw'
 import { API_ENDPOINT } from '../../config/main'
+import { customRender } from '../../context/TestProvider'
 
 const renderComponent = () => {
-  return render(
+  return customRender(
     <MemoryRouter initialEntries={[AppRoutes.PokemonDetail.replace(':id', '1')]}>
       <Routes>
         <Route path={AppRoutes.PokemonDetail} element={<PokemonDetailPage />} />

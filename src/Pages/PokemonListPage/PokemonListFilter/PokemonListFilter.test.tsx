@@ -1,4 +1,4 @@
-import { screen, fireEvent } from '@testing-library/react'
+import { screen, fireEvent, waitFor } from '@testing-library/react'
 import { vi } from 'vitest'
 import PokemonListFilter from './PokemonListFilter'
 import { customRender } from '../../../context/TestProvider'
@@ -72,6 +72,8 @@ describe('PokemonListFilter', () => {
       setSearchParamsMock,
     ])
     renderComponent()
+
+    await waitFor(() => expect(screen.queryAllByText('Select...')).not.toHaveLength(2))
 
     expect(screen.getByTestId('list_filter')).toHaveFormValues({ name: 'test', types: '1' })
   })

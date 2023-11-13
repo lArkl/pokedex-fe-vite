@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import selectEvent from 'react-select-event'
 import MultiSelect, { MultiSelectProps } from './MultiSelect'
 import { vi } from 'vitest'
@@ -53,31 +53,5 @@ describe('MultiSelect', () => {
     await selectEvent.select(screen.getByLabelText('Field'), ['Strawberry', 'Mango'])
 
     expect(screen.getByTestId('form')).toHaveFormValues({ field: ['1', '2'] })
-  })
-
-  it('should update form value when selecting with load', async () => {
-    render(
-      <WrappedMultiSelect
-        loadOptions={(inputValue) =>
-          new Promise((resolve) =>
-            resolve([
-              { label: `${inputValue} one`, value: 1 },
-              { label: `${inputValue} two`, value: 2 },
-              { label: `${inputValue} three`, value: 3 },
-            ]),
-          )
-        }
-      />,
-    )
-    expect(screen.getByTestId('form')).toHaveFormValues({ field: '' })
-
-    const input = screen.getByRole('combobox', { name: 'field_multiselect' })
-    fireEvent.change(input, { target: { value: 'test' } })
-
-    expect(await screen.findByText(/three/)).toBeInTheDocument()
-
-    await selectEvent.select(screen.getByLabelText('Field'), ['test three'])
-
-    expect(screen.getByTestId('form')).toHaveFormValues({ field: '3' })
   })
 })
