@@ -1,13 +1,7 @@
 import axios, { AxiosError } from 'axios'
 import { API_ENDPOINT, PAGE_SIZE } from '../config/main'
 import { ResponseDto, PaginatedResponseDto, PokemonDto, PokemonItemDto, ListItemDto } from './dto'
-
-const DELAY_TIME = 400
-
-const waitRequest = async <T>(promise: Promise<T>, delay = DELAY_TIME) => {
-  const [, result] = await Promise.all([new Promise((resolve) => setTimeout(resolve, delay)), promise])
-  return result
-}
+import { waitRequest } from './utils'
 
 export const getPokemonFromIdRequest = async (id: number, signal?: AbortSignal): Promise<PokemonDto> => {
   const { data: response } = await waitRequest(

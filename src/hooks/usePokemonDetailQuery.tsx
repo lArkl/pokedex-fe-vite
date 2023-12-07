@@ -1,4 +1,4 @@
-import { getPokemonFromIdRequest } from '../requests/getPokemons'
+import { getPokemonFromIdRequest } from '../requests/pokemon.requests.'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { PokemonDto } from '../requests/dto'
 

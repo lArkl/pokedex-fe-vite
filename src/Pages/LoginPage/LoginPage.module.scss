@@ -3,12 +3,16 @@
 }
 
 .header {
-  padding: 5rem;
+  margin: 3rem 0;
   font-size: 3rem;
 }
 
+.loader {
+  margin: 2rem;
+}
+
 .powered {
-  padding: 2rem;
+  margin-top: 2rem;
 }
 
 .icons {
@@ -19,8 +23,7 @@
 }
 
 .search {
-  padding: 1rem;
-  border-radius: 0.5rem;
+  background-color: black;
 }
 
 .reactIcon :global {

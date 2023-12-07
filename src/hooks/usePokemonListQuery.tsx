@@ -1,4 +1,4 @@
-import { getPokemonsListRequest } from '../requests/getPokemons'
+import { getPokemonsListRequest } from '../requests/pokemon.requests.'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { PaginationDto, PokemonItemDto } from '../requests/dto'
 

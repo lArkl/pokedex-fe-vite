@@ -1,4 +1,4 @@
-import { getPokemonTypes } from '../requests/getPokemons'
+import { getPokemonTypes } from '../requests/pokemon.requests.'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { Option } from '../shared/types'
 

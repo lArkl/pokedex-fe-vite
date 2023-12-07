@@ -1,8 +1,8 @@
-import { getPokemonFromIdRequest, getPokemonTypes, getPokemonsListRequest } from './getPokemons'
+import { getPokemonFromIdRequest, getPokemonTypes, getPokemonsListRequest } from './pokemon.requests.'
 import { makePokemon } from '../mocks/factories/pokemon'
 import { makePokemonTypes } from '../mocks/factories/pokemonAttributes'
 
-describe('getPokemons', () => {
+describe('pokemon.requests', () => {
   describe('getPokemonFromId', () => {
     it('returns pokemon data from id', async () => {
       const data = await getPokemonFromIdRequest(1)
