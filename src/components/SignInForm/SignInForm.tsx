@@ -1,4 +1,4 @@
-import { FC, useCallback, ReactNode } from 'react'
+import { FC, useCallback } from 'react'
 import FormInput from '../FormInput/FormInput'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
@@ -13,6 +13,7 @@ import Button from '../Button'
 import { Link } from 'react-router-dom'
 import { AppRoutes } from '../../routes/appRoutes'
 import { UserDto } from '../../requests/dto'
+import { setUserToken } from '../../utils/auth'
 
 const signInSchema = z.object({
   email: z.string({ required_error: 'Email is required' }).email({
@@ -28,10 +29,9 @@ type SignInSchema = z.infer<typeof signInSchema>
 interface SignInFormProps {
   onSuccess: (user: UserDto) => void
   onError?: (error: Error) => void
-  extraButtons?: ReactNode
 }
 
-const SignInForm: FC<SignInFormProps> = ({ onSuccess, onError, extraButtons }) => {
+const SignInForm: FC<SignInFormProps> = ({ onSuccess, onError }) => {
   const { control, handleSubmit, setError, reset } = useForm<SignInSchema>({
     resolver: zodResolver(signInSchema),
   })
@@ -47,6 +47,7 @@ const SignInForm: FC<SignInFormProps> = ({ onSuccess, onError, extraButtons }) =
         onSuccess: ({ data }) => {
           toast('Sign in successfully!', { type: 'success' })
           reset()
+          setUserToken(data.data.token)
           onSuccess(data.data)
         },
         onError: (error) => {
@@ -60,7 +61,7 @@ const SignInForm: FC<SignInFormProps> = ({ onSuccess, onError, extraButtons }) =
     [mutate, onError, onSuccess, reset, setError],
   )
   return (
-    <form data-testid="signin" className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+    <form data-testid="signin" className={styles.container} onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.fields}>
         <FormInput name="email" label="Email" control={control} />
         <FormInput name="password" label="Password" control={control} type="password" />
@@ -69,10 +70,14 @@ const SignInForm: FC<SignInFormProps> = ({ onSuccess, onError, extraButtons }) =
         <Button variant="primary">Sign in</Button>
         <Link to={AppRoutes.SignUp}>
           <Button variant="secondary" type="button">
-            Create user
+            Create account
           </Button>
         </Link>
-        {extraButtons}
+        <Link to={AppRoutes.PokemonList}>
+          <Button variant="secondary" className={styles.search} type="button">
+            Continue as Guest
+          </Button>
+        </Link>
       </div>
     </form>
   )
