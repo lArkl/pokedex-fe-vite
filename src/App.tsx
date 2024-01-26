@@ -6,8 +6,12 @@ import PokemonListPage from './pages/PokemonListPage'
 import PageNotFound from './pages/PageNotFound/PageNotFound'
 import LoginPage from './pages/LoginPage'
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
+import SignUpPage from './pages/SignUpPage'
+import Toast from './components/Toast/Toast'
+import AuthGuard from './pages/AuthGuard/AuthGuard'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
-const client = new QueryClient()
+const client = new QueryClient({ defaultOptions: { queries: { retry: 2, refetchOnWindowFocus: false } } })
 
 function App() {
   return (
@@ -15,11 +19,28 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LoginPage />} />
-          <Route path={AppRoutes.PokemonList} element={<PokemonListPage />} />
-          <Route path={AppRoutes.PokemonDetail} element={<PokemonDetailPage />} />
+          <Route path={AppRoutes.SignUp} element={<SignUpPage />} />
+          <Route
+            path={AppRoutes.PokemonList}
+            element={
+              <AuthGuard>
+                <PokemonListPage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path={AppRoutes.PokemonDetail}
+            element={
+              <AuthGuard>
+                <PokemonDetailPage />
+              </AuthGuard>
+            }
+          />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
+        <Toast />
       </BrowserRouter>
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   )
 }

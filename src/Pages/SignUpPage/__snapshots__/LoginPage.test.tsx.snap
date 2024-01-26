@@ -16,7 +16,7 @@ exports[`LoginPage > renders component 1`] = `
       role="alert"
     >
       <div
-        class="_pokeball_d51639 _loader_951041"
+        class="_pokeball_d51639"
       />
     </div>
     <div
@@ -44,9 +44,15 @@ exports[`LoginPage > renders component 1`] = `
         />
       </div>
     </div>
+    <a
+      href="/pokemons"
+    >
+      <button
+        class="_container_f8f296 _secondary_f8f296 _medium_f8f296 _search_951041"
+      >
+        Search Pokemons
+      </button>
+    </a>
   </div>
-  <div
-    class="Toastify"
-  />
 </DocumentFragment>
 `;

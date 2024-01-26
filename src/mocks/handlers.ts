@@ -1,5 +1,5 @@
 import { rest } from 'msw'
-import { ListItemDto, PokemonDto, ResponseDto } from '../requests/dto'
+import { PokemonDto, ResponseDto } from '../requests/dto'
 import pokemonsListJson1 from './responses/pokemons1.json'
 import pokemonJson from './responses/pokemon.json'
 import { API_ENDPOINT } from '../config/main'
@@ -22,8 +22,26 @@ export const handlers = [
     const offset = req.url.searchParams.get('offset')
     return res(ctx.status(200), ctx.json(pokemonsListJson1))
   }),
-  rest.get(`${API_ENDPOINT}/types`, (req, res, ctx) => {
-    const response: ResponseDto<ListItemDto[]> = { data: makePokemonTypes(3), error: null }
+  rest.get(`${API_ENDPOINT}/types`, (_, res, ctx) => {
+    const response = { data: makePokemonTypes(3), error: null }
     return res(ctx.status(200), ctx.json(response))
+  }),
+  rest.get(`${API_ENDPOINT}/users/validate`, (req, res, ctx) => {
+    const user = {
+      firstname: 'jose',
+      lastname: 'garcia',
+      id: 18,
+      updatedAt: '2023-12-08T09:36:34.000Z',
+      token: 'sdhfEWRtndf',
+    }
+    return res(ctx.status(200), ctx.json({ data: user, error: null }))
+  }),
+  rest.post(`${API_ENDPOINT}/users/signup`, async (req, res, ctx) => {
+    const body = await req.json()
+    return res(ctx.status(200), ctx.json({ firstname: body.firstname }))
+  }),
+  rest.post(`${API_ENDPOINT}/users/signin`, async (req, res, ctx) => {
+    const body = await req.json()
+    return res(ctx.status(200), ctx.json({ firstname: body.firstname, token: 'test-token' }))
   }),
 ]

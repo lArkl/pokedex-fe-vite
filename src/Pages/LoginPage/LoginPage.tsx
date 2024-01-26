@@ -13,7 +13,6 @@ import { AppRoutes } from '../../routes/appRoutes'
 const Login: FC = () => {
   const navigate = useNavigate()
   const { isFetching, data: userData, logoutUser } = useUserQuery()
-
   return (
     <div className={styles.container}>
       <Typography variant="xl" className={styles.header}>
@@ -43,7 +42,7 @@ const Login: FC = () => {
         ) : (
           <SignInForm
             onSuccess={() => {
-              navigate(`/pokemons`)
+              navigate(AppRoutes.PokemonList)
             }}
           />
         )

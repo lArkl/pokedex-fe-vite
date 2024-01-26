@@ -1,10 +1,7 @@
 import { FC, ReactNode, useEffect } from 'react'
-import useUserQuery, { getUserQueryKey } from '../../hooks/useUserQuery'
-import { setUserToken } from '../../utils/auth'
-import { useQueryClient } from '@tanstack/react-query'
+import useUserQuery from '../../hooks/useUserQuery'
 import Loader from '../../components/Loader'
-import { Link, useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
+import { Link } from 'react-router-dom'
 import { ERROR_MESSAGE } from '../../utils/error'
 import Typography from '../../components/Typography'
 import { AppRoutes } from '../../routes/appRoutes'
@@ -12,17 +9,13 @@ import Button from '../../components/Button'
 import styles from './AuthGuard.module.scss'
 
 const AuthGuard: FC<{ children: ReactNode }> = ({ children }) => {
-  const queryClient = useQueryClient()
-  const { isFetching, error, data, isSuccess } = useUserQuery()
-  const navigate = useNavigate()
+  const { isFetching, error, data, isSuccess, clearUser, logoutUser } = useUserQuery()
 
   useEffect(() => {
     if (error?.message && ERROR_MESSAGE.INVALID_TOKEN === error.message) {
-      toast('Invalid user, Sign in as Guest', { type: 'error' })
-      setUserToken('')
-      queryClient.removeQueries({ queryKey: getUserQueryKey() })
+      clearUser()
     }
-  }, [error, isFetching, navigate, queryClient])
+  }, [clearUser, error?.message])
 
   return (
     <>
@@ -40,10 +33,7 @@ const AuthGuard: FC<{ children: ReactNode }> = ({ children }) => {
                 variant="secondary"
                 className={styles.button}
                 onClick={() => {
-                  queryClient.removeQueries({ queryKey: getUserQueryKey() })
-                  toast('Logged out', { type: 'success' })
-                  setUserToken('')
-                  navigate(AppRoutes.Login)
+                  logoutUser(AppRoutes.Login)
                 }}
               >
                 Logout
