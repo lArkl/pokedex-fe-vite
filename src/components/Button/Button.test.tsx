@@ -4,13 +4,12 @@ import { vi } from 'vitest'
 
 describe('Button', () => {
   it('renders component', async () => {
-    render(<Button />)
+    const { asFragment } = render(<Button />)
 
-    const button = screen.getByRole('button')
-    expect(button).toBeInTheDocument()
+    expect(asFragment()).toMatchSnapshot()
   })
 
-  it('render text', async () => {
+  it('shows inner text', async () => {
     render(<Button>Press</Button>)
 
     const button = screen.getByRole('button')

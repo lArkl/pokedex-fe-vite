@@ -3,9 +3,9 @@ import Typography from './Typography'
 
 describe('Typography', () => {
   it('renders component', async () => {
-    render(<Typography>text</Typography>)
-    const text = screen.getByText('text')
-    expect(text).toBeInTheDocument()
+    const { asFragment } = render(<Typography>text</Typography>)
+
+    expect(asFragment()).toMatchSnapshot()
   })
 
   it('shows small size', async () => {

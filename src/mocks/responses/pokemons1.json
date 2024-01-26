@@ -1,15 +1,41 @@
 {
-  "count": 1281,
-  "next": "https://pokeapi.co/api/v2/pokemon?offset=20&limit=20",
-  "previous": null,
-  "results": [
-    {
-      "name": "bulbasaur",
-      "url": "https://pokeapi.co/api/v2/pokemon/1/"
-    },
-    {
-      "name": "ivysaur",
-      "url": "https://pokeapi.co/api/v2/pokemon/2/"
-    }
-  ]
+  "data": {
+    "items": [
+      {
+        "id": 1,
+        "name": "bulbasaur1",
+        "spriteUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png",
+        "types": [
+          {
+            "id": 1,
+            "name": "t1"
+          },
+          {
+            "id": 2,
+            "name": "t2"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "bulbasaur2",
+        "spriteUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/2.png",
+        "types": [
+          {
+            "id": 1,
+            "name": "t1"
+          },
+          {
+            "id": 2,
+            "name": "t2"
+          }
+        ]
+      }
+    ],
+    "count": 111,
+    "page": 1,
+    "pageSize": 20,
+    "totalPages": 64
+  },
+  "error": null
 }

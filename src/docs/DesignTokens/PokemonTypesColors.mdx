@@ -1,0 +1,32 @@
+import { Meta } from '@storybook/blocks'
+import PokemonTypesColors from './PokemonTypesColors'
+
+<Meta title="Design Tokens/Pokemon Types" />
+
+# Pokemon Type Colors
+
+<div className="sb-container">
+  <PokemonTypesColors mainClassName="colors" rowClassName="colorRow" textClassName="colorRow__name" />
+</div>
+
+<style>
+  {`
+  .colors {
+    background-color: white;
+    border-radius: 0.4rem;
+    padding: 1rem;
+    margin-top: 1rem;
+    display: flex;
+    row-gap: 1rem;
+    column-gap: 4rem;
+    flex-wrap: wrap;
+    .colorRow {
+
+      .colorRow__name {
+        margin-top: 0.5rem;
+        min-width: 6rem;
+      }
+    }
+  }
+  `}
+</style>

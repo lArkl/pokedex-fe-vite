@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import styles from './ProgressBar.module.scss'
 
-interface ProgressBarProps {
+export interface ProgressBarProps {
   value: number
   max?: number
 }

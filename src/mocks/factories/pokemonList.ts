@@ -1,10 +1,17 @@
-import { Pokemon } from '../../requests/getPokemons'
-import { PaginatedResult } from '../../requests/types'
-import { makePokemon } from './pokemon'
+import { PaginationDto, PokemonItemDto } from '../../requests/dto'
 
-export const makePokemonList = (size = 1): PaginatedResult<Pokemon> => ({
+export const makePokemonItem = (id = 1): PokemonItemDto => ({
+  name: `bulbasaur${id ? id.toString() : ''}`,
+  spriteUrl: '',
+  id: id,
+  types: [
+    { name: 't1', id: 1 },
+    { name: 't2', id: 2 },
+  ],
+})
+export const makePokemonList = (size = 1): PaginationDto<PokemonItemDto> => ({
   count: 1281,
-  next: 'https://pokeapi.co/api/v2/pokemon?offset=20&limit=20',
-  previous: null,
-  results: Array.from({ length: size }, (_, id) => makePokemon(id + 1)),
+  items: Array.from({ length: size }, (_, id) => makePokemonItem(id + 1)),
+  page: 1,
+  pageSize: 20,
 })

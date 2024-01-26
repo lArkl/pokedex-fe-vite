@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import Typography from '../Typography/Typography'
+import Typography from '../Typography'
 import styles from './PokemonTypeBadge.module.scss'
 import classNames from 'classnames'
 import { capitalize } from '../../utils/strings'

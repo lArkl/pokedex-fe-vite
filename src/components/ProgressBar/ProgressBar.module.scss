@@ -1,5 +1,5 @@
 .container {
-  background: #e2e2e2;
+  background-color: var(--color-white-2);
   border-radius: 0.55rem;
   width: 95%;
   padding: 0.1rem 0.2rem;
@@ -8,17 +8,25 @@
 }
 
 .bar {
-  background: rgb(68, 68, 161);
+  background-color: var(--color-purple-1);
   border-radius: 0.4rem;
   height: 80%;
   padding: 0.1rem;
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  transform-origin: left;
+  animation: grow 1.5s;
+}
+
+@keyframes grow {
+  0% {
+    transform: scaleX(0.1);
+  }
 }
 
 .value {
-  background: white;
+  background-color: white;
   border-radius: 50%;
   height: 0.65rem;
   width: 0.65rem;
