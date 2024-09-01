@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import Select, { CSSObjectWithLabel, InputActionMeta, MultiValue } from 'react-select'
 import { Control, FieldValues, useController, FieldPath, PathValue, Path } from 'react-hook-form'
 import { Option } from '../../shared/types'

@@ -1,7 +1,6 @@
 import { InputHTMLAttributes } from 'react'
 import styles from './FormInput.module.scss'
 import { Control, FieldValues, useController, FieldPath, UseControllerProps } from 'react-hook-form'
-import classNames from 'classnames'
 import Fieldset from '../Fieldset'
 import Typography from '../Typography'
 
