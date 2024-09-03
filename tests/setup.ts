@@ -1,9 +1,7 @@
-import { expect, afterEach, vi } from 'vitest'
+import { expect, afterEach, vi, beforeAll, afterAll } from 'vitest'
 import { cleanup } from '@testing-library/react'
-import matchers from '@testing-library/jest-dom/matchers'
+import '@testing-library/jest-dom/vitest'
 import { server } from '../src/mocks/server'
-
-expect.extend(matchers)
 
 afterEach(() => {
   cleanup()

@@ -22,12 +22,13 @@ exports[`MultiSelect > renders component 1`] = `
         aria-live="polite"
         aria-relevant="additions text"
         class="css-1f43avz-a11yText-A11yText"
+        role="log"
       />
       <div
         class=" css-1hoor4r-control"
       >
         <div
-          class=" css-1fdsijx-ValueContainer"
+          class=" css-hlgwow"
         >
           <div
             class=" css-1jqq78o-placeholder"
@@ -36,10 +37,11 @@ exports[`MultiSelect > renders component 1`] = `
             Select...
           </div>
           <div
-            class=" css-qbdosj-Input"
+            class=" css-19bb58m"
             data-value=""
           >
             <input
+              aria-activedescendant=""
               aria-autocomplete="list"
               aria-describedby="react-select-2-placeholder"
               aria-expanded="false"
@@ -60,7 +62,7 @@ exports[`MultiSelect > renders component 1`] = `
           </div>
         </div>
         <div
-          class=" css-1hb7zxy-IndicatorsContainer"
+          class=" css-1wy0on6"
         >
           <span
             class=" css-1u9des2-indicatorSeparator"
