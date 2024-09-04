@@ -1,12 +1,10 @@
-import axios, { AxiosError } from 'axios'
-import { API_ENDPOINT, PAGE_SIZE } from '../config/main'
+import { AxiosError } from 'axios'
+import { PAGE_SIZE } from '../config/main'
 import { ResponseDto, PaginatedResponseDto, PokemonDto, PokemonItemDto, ListItemDto } from './dto'
-import { waitRequest } from './utils'
+import { pokeApi, waitRequest } from './utils'
 
 export const getPokemonFromIdRequest = async (id: number, signal?: AbortSignal): Promise<PokemonDto> => {
-  const { data: response } = await waitRequest(
-    axios.get<ResponseDto<PokemonDto>>(`${API_ENDPOINT}/pokemon/${id}`, { signal }),
-  )
+  const { data: response } = await waitRequest(pokeApi.get<ResponseDto<PokemonDto>>(`/pokemon/${id}`, { signal }))
   return response.data
 }
 
@@ -23,7 +21,7 @@ export const getPokemonsListRequest = async ({ page, name, signal, abilities, ty
 > => {
   try {
     const { data: response } = await waitRequest(
-      axios.get<PaginatedResponseDto<PokemonItemDto>>(`${API_ENDPOINT}/pokemons`, {
+      pokeApi.get<PaginatedResponseDto<PokemonItemDto>>('/pokemons', {
         params: { page, name, pageSize: PAGE_SIZE, abilities, types },
         signal,
       }),
@@ -38,7 +36,7 @@ export const getPokemonsListRequest = async ({ page, name, signal, abilities, ty
 }
 
 export const getPokemonTypes = async (signal?: AbortSignal): Promise<ResponseDto<ListItemDto[]>> => {
-  const { data: response } = await axios.get<ResponseDto<ListItemDto[]>>(`${API_ENDPOINT}/types`, { signal })
+  const { data: response } = await pokeApi.get<ResponseDto<ListItemDto[]>>('/types', { signal })
   return response
 }
 
@@ -46,7 +44,7 @@ export const getPokemonAbilities = async (
   params?: Partial<{ name: string; ids: number[] }>,
   signal?: AbortSignal,
 ): Promise<PaginatedResponseDto<ListItemDto>> => {
-  const { data: response } = await axios.get<PaginatedResponseDto<ListItemDto>>(`${API_ENDPOINT}/abilities`, {
+  const { data: response } = await pokeApi.get<PaginatedResponseDto<ListItemDto>>('/abilities', {
     params,
     signal,
   })
@@ -57,7 +55,7 @@ export const getPokemonAbilitiesByIds = async (
   name: string,
   signal?: AbortSignal,
 ): Promise<PaginatedResponseDto<ListItemDto>> => {
-  const { data: response } = await axios.get<PaginatedResponseDto<ListItemDto>>(`${API_ENDPOINT}/abilities`, {
+  const { data: response } = await pokeApi.get<PaginatedResponseDto<ListItemDto>>('/abilities', {
     params: { name },
     signal,
   })

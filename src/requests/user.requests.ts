@@ -1,9 +1,8 @@
-import axios from 'axios'
-import { API_ENDPOINT } from '../config/main'
 import { ResponseDto, UserDto } from './dto'
+import { pokeApi } from './utils'
 
 export const signInUserRequest = async (fields: { email: string; password: string }) => {
-  return axios.post<ResponseDto<UserDto & { token: string }>>(`${API_ENDPOINT}/users/signin`, fields)
+  return pokeApi.post<ResponseDto<UserDto>>('/auth/signin', fields)
 }
 
 export const signUpUserRequest = async (fields: {
@@ -12,12 +11,17 @@ export const signUpUserRequest = async (fields: {
   email: string
   password: string
 }) => {
-  return axios.post<ResponseDto<UserDto>>(`${API_ENDPOINT}/users/signup`, fields)
+  return pokeApi.post<ResponseDto<UserDto>>('/users/signup', fields)
 }
 
-export const validateUserRequest = async (token: string, signal?: AbortSignal) => {
-  return axios.get<ResponseDto<UserDto>>(`${API_ENDPOINT}/users/validate`, {
-    headers: { authorization: `Bearer ${token}` },
+export const getUserInfoRequest = async (signal?: AbortSignal) => {
+  return pokeApi.get<ResponseDto<UserDto & { expiration: string }>>('/users/info', {
+    signal,
+  })
+}
+
+export const logoutSessionRequest = async (signal?: AbortSignal) => {
+  return pokeApi.post<ResponseDto<UserDto>>('/auth/logout', {
     signal,
   })
 }

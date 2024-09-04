@@ -4,6 +4,7 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { AppRoutes } from '../../routes/appRoutes'
 import userEvent from '@testing-library/user-event'
 import { customRender } from '../../context/TestProvider'
+import { mockRequests } from '../../mocks/test.utils'
 
 const renderComponent = () => {
   return customRender(
@@ -18,12 +19,6 @@ const renderComponent = () => {
 }
 
 describe('LoginPage', () => {
-  beforeEach(() => {
-    window.localStorage.setItem('token', 'test-token')
-  })
-  afterAll(() => {
-    window.localStorage.clear()
-  })
   it('renders component', async () => {
     const { asFragment } = renderComponent()
 
@@ -61,9 +56,10 @@ describe('LoginPage', () => {
   })
 
   it('submits login successfully', async () => {
+    mockRequests({ loggedInUser: false })
+
     const user = userEvent.setup()
-    // Clear user token
-    window.localStorage.clear()
+
     renderComponent()
 
     expect(await screen.findByTestId('signin')).toBeInTheDocument()
@@ -83,8 +79,8 @@ describe('LoginPage', () => {
   })
 
   it('redirects to create account', async () => {
-    // Clear user token
-    window.localStorage.clear()
+    mockRequests({ loggedInUser: false })
+
     renderComponent()
 
     expect(await screen.findByTestId('signin')).toBeInTheDocument()

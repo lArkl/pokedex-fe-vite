@@ -6,7 +6,7 @@ exports[`LoginPage > renders component 1`] = `
     class="_container_951041"
   >
     <h1
-      class="_xl_bcfef7 _header_951041"
+      class="_xl_bcfef7 _header_44a9d6"
     >
       Welcome to the Pokedex
     </h1>
@@ -16,11 +16,11 @@ exports[`LoginPage > renders component 1`] = `
       role="alert"
     >
       <div
-        class="_pokeball_d51639 _loader_951041"
+        class="_pokeball_d51639 _loader_44a9d6"
       />
     </div>
     <div
-      class="_powered_951041"
+      class="_powered_8099c1"
     >
       <p
         class="_md_bcfef7"
@@ -29,7 +29,7 @@ exports[`LoginPage > renders component 1`] = `
       </p>
       <div
         aria-label="icons"
-        class="_icons_951041"
+        class="_icons_8099c1"
       >
         <img
           alt="vite icon"
@@ -38,7 +38,7 @@ exports[`LoginPage > renders component 1`] = `
         />
         <img
           alt="react icon"
-          class="_reactIcon_951041"
+          class="_reactIcon_8099c1"
           src="/react.svg"
           width="50"
         />

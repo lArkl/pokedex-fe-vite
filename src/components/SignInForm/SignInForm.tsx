@@ -13,7 +13,6 @@ import Button from '../Button'
 import { Link } from 'react-router-dom'
 import { AppRoutes } from '../../routes/appRoutes'
 import { UserDto } from '../../requests/dto'
-import { setUserToken } from '../../utils/auth'
 
 const signInSchema = z.object({
   email: z.string({ required_error: 'Email is required' }).email({
@@ -47,7 +46,6 @@ const SignInForm: FC<SignInFormProps> = ({ onSuccess, onError }) => {
         onSuccess: ({ data }) => {
           toast('Sign in successfully!', { type: 'success' })
           reset()
-          setUserToken(data.data.token)
           onSuccess(data.data)
         },
         onError: (error) => {

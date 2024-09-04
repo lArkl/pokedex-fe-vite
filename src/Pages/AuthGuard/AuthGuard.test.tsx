@@ -4,6 +4,7 @@ import { AppRoutes } from '../../routes/appRoutes'
 import AuthGuard from './AuthGuard'
 import { customRender } from '../../context/TestProvider'
 import userEvent from '@testing-library/user-event'
+import { mockRequests } from '../../mocks/test.utils'
 
 const renderComponent = () => {
   return customRender(
@@ -17,19 +18,14 @@ const renderComponent = () => {
 }
 
 describe('AuthGuard', () => {
-  beforeEach(() => {
-    window.localStorage.setItem('token', 'test-token')
-  })
-  afterAll(() => {
-    window.localStorage.clear()
-  })
   it('shows loader while fetching list', () => {
     renderComponent()
 
     expect(screen.getByRole('alert', { name: 'loading' })).toBeInTheDocument()
   })
   it('shows guest options if not logged in', async () => {
-    window.localStorage.clear()
+    mockRequests({ loggedInUser: false })
+
     renderComponent()
 
     const loggedIn = await screen.findByText('Logged in as', { exact: false })

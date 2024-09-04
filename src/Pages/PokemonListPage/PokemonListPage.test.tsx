@@ -3,7 +3,7 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { AppRoutes } from '../../routes/appRoutes'
 import PokemonListPage from './PokemonListPage'
 import { server } from '../../mocks/server'
-import { rest } from 'msw'
+import { http, HttpResponse } from 'msw'
 import { API_ENDPOINT } from '../../config/main'
 import { customRender } from '../../context/TestProvider'
 
@@ -35,8 +35,8 @@ describe('PokemonListPage', () => {
 
   it('shows error page if fetch fails', async () => {
     server.use(
-      rest.get(`${API_ENDPOINT}/pokemons`, (_req, res, ctx) => {
-        return res(ctx.status(500), ctx.json({ error: 'something went wrong' }))
+      http.get(`${API_ENDPOINT}/pokemons`, () => {
+        return HttpResponse.json({ error: 'something went wrong' }, { status: 500 })
       }),
     )
     renderComponent()

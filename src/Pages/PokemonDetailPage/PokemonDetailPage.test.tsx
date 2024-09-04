@@ -3,7 +3,7 @@ import PokemonDetailPage from './PokemonDetailPage'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { AppRoutes } from '../../routes/appRoutes'
 import { server } from '../../mocks/server'
-import { rest } from 'msw'
+import { http, HttpResponse } from 'msw'
 import { API_ENDPOINT } from '../../config/main'
 import { customRender } from '../../context/TestProvider'
 
@@ -36,8 +36,8 @@ describe('PokemonDetailPage', () => {
 
   it('shows error page if fetch fails', async () => {
     server.use(
-      rest.get(`${API_ENDPOINT}/pokemon/:id`, (_req, res, ctx) => {
-        return res(ctx.status(500), ctx.json({ error: 'something went wrong' }))
+      http.get(`${API_ENDPOINT}/pokemon/:id`, () => {
+        return HttpResponse.json({ error: 'something went wrong' }, { status: 500 })
       }),
     )
     renderComponent()

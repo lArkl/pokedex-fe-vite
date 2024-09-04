@@ -1,47 +1,96 @@
-import { rest } from 'msw'
+import { http, HttpResponse } from 'msw'
 import { PokemonDto, ResponseDto } from '../requests/dto'
 import pokemonsListJson1 from './responses/pokemons1.json'
 import pokemonJson from './responses/pokemon.json'
 import { API_ENDPOINT } from '../config/main'
 import { makePokemon } from './factories/pokemon'
 import { makePokemonTypes } from './factories/pokemonAttributes'
+import { makeUser } from './factories/user'
+
+const fixedDate = new Date('2024-09-02T15:39:29.651Z')
+
+const authRefreshSuccessHandler = http.post(`${API_ENDPOINT}/auth/refresh`, () => {
+  return HttpResponse.json({
+    data: { expiration: fixedDate.toISOString() },
+  })
+})
+
+const userInfoSuccessHandler = http.get(`${API_ENDPOINT}/users/info`, () => {
+  return HttpResponse.json({ data: makeUser(), error: null })
+})
 
 export const handlers = [
-  rest.get(`${API_ENDPOINT}/pokemon/:id`, (req, res, ctx) => {
-    const paramId = req.params.id
+  http.get(`${API_ENDPOINT}/pokemon/:id`, ({ params }) => {
+    const paramId = params.id
 
-    const id = Array.isArray(paramId) ? paramId?.[0] ?? 1 : paramId
+    const id = Array.isArray(paramId) ? (paramId?.[0] ?? 1) : paramId
 
     const response: ResponseDto<PokemonDto> = {
       data: makePokemon(id),
       error: pokemonJson.error,
     }
-    return res(ctx.status(200), ctx.json(response))
+    return HttpResponse.json(response)
   }),
-  rest.get(`${API_ENDPOINT}/pokemons`, (req, res, ctx) => {
-    const offset = req.url.searchParams.get('offset')
-    return res(ctx.status(200), ctx.json(pokemonsListJson1))
+  http.get(`${API_ENDPOINT}/pokemons`, () => {
+    // const offset = req.url.searchParams.get('offset')
+    return HttpResponse.json(pokemonsListJson1)
   }),
-  rest.get(`${API_ENDPOINT}/types`, (_, res, ctx) => {
+  http.get(`${API_ENDPOINT}/types`, () => {
     const response = { data: makePokemonTypes(3), error: null }
-    return res(ctx.status(200), ctx.json(response))
+    return HttpResponse.json(response)
   }),
-  rest.get(`${API_ENDPOINT}/users/validate`, (req, res, ctx) => {
-    const user = {
-      firstname: 'jose',
-      lastname: 'garcia',
-      id: 18,
-      updatedAt: '2023-12-08T09:36:34.000Z',
-      token: 'sdhfEWRtndf',
+  userInfoSuccessHandler,
+  http.post(`${API_ENDPOINT}/users/signup`, async ({ request }) => {
+    const body = (await request.json()) as {
+      firstname: string
     }
-    return res(ctx.status(200), ctx.json({ data: user, error: null }))
+    return HttpResponse.json({ firstname: body.firstname })
   }),
-  rest.post(`${API_ENDPOINT}/users/signup`, async (req, res, ctx) => {
-    const body = await req.json()
-    return res(ctx.status(200), ctx.json({ firstname: body.firstname }))
+  http.post(`${API_ENDPOINT}/auth/signin`, () => {
+    return HttpResponse.json(
+      {
+        data: { message: 'sign in successfully' },
+      },
+      {
+        headers: {
+          'Set-Cookie': 'accessToken=accesstoken; SameSite=Strict, refreshToken=accesstoken; SameSite=Strict',
+        },
+      },
+    )
   }),
-  rest.post(`${API_ENDPOINT}/users/signin`, async (req, res, ctx) => {
-    const body = await req.json()
-    return res(ctx.status(200), ctx.json({ firstname: body.firstname, token: 'test-token' }))
+  authRefreshSuccessHandler,
+  userInfoSuccessHandler,
+  http.post(`${API_ENDPOINT}/auth/logout`, () => {
+    return HttpResponse.json({
+      data: { message: 'logged out' },
+    })
   }),
 ]
+
+export const userInfoErrorHandler = http.get(
+  `${API_ENDPOINT}/users/info`,
+  () => {
+    return HttpResponse.json(
+      {
+        error: {
+          name: 'AuthTokenError',
+          message: 'Authentication token not found',
+        },
+      },
+      { status: 401 },
+    )
+  },
+  { once: true },
+)
+
+export const authRefreshErrorHandler = http.get(`${API_ENDPOINT}/users/info`, () => {
+  return HttpResponse.json(
+    {
+      error: {
+        name: 'RefreshTokenError',
+        message: 'Refresh token not found',
+      },
+    },
+    { status: 401 },
+  )
+})
