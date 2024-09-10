@@ -23,10 +23,6 @@ const useUserQuery = () => {
     [navigate, queryClient],
   )
 
-  const clearUser = useCallback(() => {
-    queryClient.removeQueries({ queryKey: getUserQueryKey() })
-  }, [queryClient])
-
   const userQuery = useQuery({
     queryKey: getUserQueryKey(),
     queryFn: async ({ signal }) => {
@@ -41,7 +37,7 @@ const useUserQuery = () => {
     staleTime: Infinity,
   })
 
-  return { ...userQuery, clearUser, logoutUser }
+  return { ...userQuery, logoutUser }
 }
 
 export default useUserQuery

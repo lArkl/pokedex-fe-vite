@@ -34,7 +34,7 @@ const signUpSchema = z
 
 type SignUpSchema = z.infer<typeof signUpSchema>
 
-const Login: FC = () => {
+const SignUpPage: FC = () => {
   const { control, handleSubmit, setError, reset } = useForm<SignUpSchema>({
     resolver: zodResolver(signUpSchema),
   })
@@ -90,4 +90,4 @@ const Login: FC = () => {
   )
 }
 
-export default Login
+export default SignUpPage

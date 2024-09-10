@@ -1,9 +1,30 @@
 .bar {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 2rem;
+  width: 100%;
 }
 
-.button {
+.loggedIn {
+  text-wrap: nowrap;
+}
+
+.sessionInfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logout {
   background-color: black;
+}
+
+.update {
+  background-color: var(--color-poison);
+}
+
+.barSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
