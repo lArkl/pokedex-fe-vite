@@ -14,10 +14,14 @@ const useUserQuery = () => {
   const logoutUser = useCallback(
     async (redirectPath?: string) => {
       queryClient.removeQueries({ queryKey: getUserQueryKey() })
-      await logoutSessionRequest()
-      toast('Logged out', { type: 'success' })
-      if (redirectPath) {
-        navigate(redirectPath)
+      try {
+        await logoutSessionRequest()
+        toast('Logged out', { type: 'success' })
+        if (redirectPath) {
+          navigate(redirectPath)
+        }
+      } catch (err) {
+        toast('There was an error logging out', { type: 'error' })
       }
     },
     [navigate, queryClient],

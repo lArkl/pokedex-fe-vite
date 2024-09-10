@@ -11,11 +11,16 @@ export const signUpUserRequest = async (fields: {
   email: string
   password: string
 }) => {
-  return pokeApi.post<ResponseDto<UserDto>>('/users/signup', fields)
+  return pokeApi.post<ResponseDto<UserDto>>('/user', fields)
+}
+
+export const updateUserRequest = async (fields: { firstname: string; lastname: string; email: string }) => {
+  console.log('fields', fields)
+  return pokeApi.patch<ResponseDto<UserDto>>('/user', fields)
 }
 
 export const getUserInfoRequest = async (signal?: AbortSignal) => {
-  return pokeApi.get<ResponseDto<UserDto & { expiration: string }>>('/users/info', {
+  return pokeApi.get<ResponseDto<UserDto & { expiration: string }>>('/user', {
     signal,
   })
 }

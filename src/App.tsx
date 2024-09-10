@@ -10,6 +10,8 @@ import SignUpPage from './pages/SignUpPage'
 import Toast from './components/Toast/Toast'
 import AuthGuard from './pages/AuthGuard/AuthGuard'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import UpdateProfilePage from './pages/UpdateProfilePage'
+import { ProtectedRoute } from './pages/ProtectedRoute/ProtectedRoute'
 
 const client = new QueryClient({ defaultOptions: { queries: { retry: 2, refetchOnWindowFocus: false } } })
 
@@ -36,6 +38,9 @@ function App() {
               </AuthGuard>
             }
           />
+          <Route element={<ProtectedRoute />}>
+            <Route path={AppRoutes.UpdateProfile} element={<UpdateProfilePage />} />
+          </Route>
           <Route path="*" element={<PageNotFound />} />
         </Routes>
         <Toast />

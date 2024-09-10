@@ -9,6 +9,7 @@ import { AppRoutes } from '../../routes/appRoutes'
 const getDifferenceInTime = (expirationText: string): string => {
   const expiration = new Date(expirationText)
   const now = new Date()
+
   let diff = expiration.getTime() - now.getTime()
 
   if (diff <= 0) {
@@ -28,6 +29,7 @@ const LoggedInBar: FC<{ firstname: string; expiration: string; onLogout: () => v
   useEffect(() => {
     const updateExpiration = () => {
       const expiresIn = getDifferenceInTime(expiration)
+      console.log({ expiresIn })
       setExpires(expiresIn)
     }
     const intervalId = setInterval(updateExpiration, 1000)

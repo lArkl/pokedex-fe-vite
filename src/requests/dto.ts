@@ -58,6 +58,7 @@ export interface PokemonItemDto {
 }
 
 export interface UserDto {
+  email: string
   firstname: string
   lastname: string
   id: number

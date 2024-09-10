@@ -10,8 +10,8 @@ const renderComponent = () => {
     <MemoryRouter initialEntries={[AppRoutes.SignUp]}>
       <Routes>
         <Route path={AppRoutes.SignUp} element={<SignUpPage />} />
-        <Route path={AppRoutes.Login} element={<div>Login</div>} />
-        <Route path={AppRoutes.PokemonList} element={<div>List</div>} />
+        <Route path={AppRoutes.Login} element={<div>Login page</div>} />
+        <Route path={AppRoutes.PokemonList} element={<div>List page</div>} />
       </Routes>
     </MemoryRouter>,
   )
@@ -56,7 +56,7 @@ describe('SignUpPage', () => {
 
     await user.click(screen.getByRole('button', { name: /sign up/i }))
 
-    expect(await screen.findByText('Login')).toBeInTheDocument()
+    expect(await screen.findByText('Login page')).toBeInTheDocument()
   })
 
   it('redirects to list when pressing search', async () => {
@@ -66,6 +66,6 @@ describe('SignUpPage', () => {
     expect(continueLink).toHaveTextContent(/continue as guest/i)
     await userEvent.click(continueLink)
 
-    expect(await screen.findByText('List')).toBeInTheDocument()
+    expect(await screen.findByText('List page')).toBeInTheDocument()
   })
 })

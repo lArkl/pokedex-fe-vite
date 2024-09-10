@@ -1,0 +1,99 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`UpdateProfilePage > renders component 1`] = `
+<DocumentFragment>
+  <div
+    class="_container_950f74"
+  >
+    <h1
+      class="_xl_bcfef7 _header_950f74"
+    >
+      Update user account!
+    </h1>
+    <form
+      class="_form_950f74"
+      data-testid="updateProfile"
+    >
+      <div
+        class="_fields_950f74"
+      >
+        <fieldset
+          class="_container_3e604f _container_530055"
+        >
+          <label
+            for="email"
+          >
+            <p
+              class="_md_bcfef7 _text_3e604f"
+            >
+              Email
+            </p>
+          </label>
+          <input
+            id="email"
+            name="email"
+            value=""
+          />
+          <div
+            class="_default_530055"
+          />
+        </fieldset>
+        <fieldset
+          class="_container_3e604f _container_530055"
+        >
+          <label
+            for="firstname"
+          >
+            <p
+              class="_md_bcfef7 _text_3e604f"
+            >
+              First Name
+            </p>
+          </label>
+          <input
+            id="firstname"
+            name="firstname"
+            value=""
+          />
+          <div
+            class="_default_530055"
+          />
+        </fieldset>
+        <fieldset
+          class="_container_3e604f _container_530055"
+        >
+          <label
+            for="lastname"
+          >
+            <p
+              class="_md_bcfef7 _text_3e604f"
+            >
+              Last Name
+            </p>
+          </label>
+          <input
+            id="lastname"
+            name="lastname"
+            value=""
+          />
+          <div
+            class="_default_530055"
+          />
+        </fieldset>
+      </div>
+      <div
+        class="_buttons_950f74"
+      >
+        <button
+          class="_container_f8f296 _primary_f8f296 _medium_f8f296"
+        >
+          Update profile
+        </button>
+      </div>
+    </form>
+  </div>
+  <div
+    class="Toastify"
+  />
+</DocumentFragment>
+`;

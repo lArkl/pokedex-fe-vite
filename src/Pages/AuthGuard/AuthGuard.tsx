@@ -15,7 +15,7 @@ const AuthGuard: FC<{ children: ReactNode }> = ({ children }) => {
         <Loader />
       ) : (
         <div className={styles.container}>
-          {isSuccess || data ? (
+          {isSuccess && data ? (
             <LoggedInBar
               expiration={data.expiration}
               firstname={data.firstname ?? ''}

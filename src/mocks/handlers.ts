@@ -7,15 +7,16 @@ import { makePokemon } from './factories/pokemon'
 import { makePokemonTypes } from './factories/pokemonAttributes'
 import { makeUser } from './factories/user'
 
-const fixedDate = new Date('2024-09-02T15:39:29.651Z')
+const refreshTokenExpirationDateMock = '2024-09-02T15:39:29.651Z'
+export const dateNowMock = new Date('2024-09-02T15:34:29.651Z')
 
 const authRefreshSuccessHandler = http.post(`${API_ENDPOINT}/auth/refresh`, () => {
   return HttpResponse.json({
-    data: { expiration: fixedDate.toISOString() },
+    data: { expiration: refreshTokenExpirationDateMock },
   })
 })
 
-const userInfoSuccessHandler = http.get(`${API_ENDPOINT}/users/info`, () => {
+const userInfoSuccessHandler = http.get(`${API_ENDPOINT}/user`, () => {
   return HttpResponse.json({ data: makeUser(), error: null })
 })
 
@@ -40,7 +41,13 @@ export const handlers = [
     return HttpResponse.json(response)
   }),
   userInfoSuccessHandler,
-  http.post(`${API_ENDPOINT}/users/signup`, async ({ request }) => {
+  http.post(`${API_ENDPOINT}/user`, async ({ request }) => {
+    const body = (await request.json()) as {
+      firstname: string
+    }
+    return HttpResponse.json({ firstname: body.firstname })
+  }),
+  http.patch(`${API_ENDPOINT}/user`, async ({ request }) => {
     const body = (await request.json()) as {
       firstname: string
     }
@@ -68,7 +75,7 @@ export const handlers = [
 ]
 
 export const userInfoErrorHandler = http.get(
-  `${API_ENDPOINT}/users/info`,
+  `${API_ENDPOINT}/user`,
   () => {
     return HttpResponse.json(
       {
@@ -83,7 +90,7 @@ export const userInfoErrorHandler = http.get(
   { once: true },
 )
 
-export const authRefreshErrorHandler = http.get(`${API_ENDPOINT}/users/info`, () => {
+export const authRefreshErrorHandler = http.get(`${API_ENDPOINT}/user`, () => {
   return HttpResponse.json(
     {
       error: {
